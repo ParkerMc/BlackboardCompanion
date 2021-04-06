@@ -1,3 +1,4 @@
 # Blackboard Companion
 A UTD project.
-By Phuoc
+
+By: Phuoc, Gus, Nick, and Caige
