@@ -24,5 +24,6 @@ print(settings.STATIC_ROOT)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('attendance/', views.attendance_professor)
+    path('attendance/', views.attendance_professor),
+    path('scan/', views.scan)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

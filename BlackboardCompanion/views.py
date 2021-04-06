@@ -7,3 +7,8 @@ def attendance_professor(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
+
+def scan(request):
+    template = loader.get_template('scan.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
