@@ -11,7 +11,7 @@ jobs:
     - name: Run update
       uses: garygrossgarten/github-action-ssh@release
       with:
-        command: cd /home/parkermc/git/BlackboardCompanion; ./update.sh
+        command: cd /home/github/blackboard_companion; ./update.sh
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         privateKey: ${{ secrets.SSH_PRIVATE_KEY}}
