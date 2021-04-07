@@ -1,3 +1,5 @@
+from .defaults import *
+
 with open('/home/github/secret_key.txt') as f:
     SECRET_KEY = f.read().strip()
 
