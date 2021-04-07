@@ -6,7 +6,7 @@ body {
 main {
     display: flex;
     flex-direction: column;
-    padding-top: 5vw;
+    padding-top: 15vw;
     padding-bottom: 15vw;
 
     flex: 1 1 0px;
@@ -46,7 +46,7 @@ main {
     align-items: center;
 
     background-color: #009C3B;
-    border-radius: 30px;
+    border-radius: 7vw;
 }
 
 .signin-button {
