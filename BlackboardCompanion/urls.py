@@ -19,8 +19,12 @@ from django.urls import path
 
 from BlackboardCompanion import views, settings
 
+
 urlpatterns = [
-    path('', views.home),
+    path('', views.blank),
+    path('home/', views.home),
     path('admin/', admin.site.urls),
     path('login/', views.login),
+    path('register/', views.register)
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
