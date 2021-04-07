@@ -1,0 +1,36 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Blackboard-Companion</title>
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+
+<body>
+<header></header>
+<main style="background-image: url({% static 'img/login_background.png' %})">
+    <div class="center-box">
+        <div class="left">
+            <img class="logo" src="{% static 'img/utd_logo.png' %}">
+            <p class="logo-text">The University <br/>
+                of Texas at Dallas</p>
+        </div>
+        <form class="right">
+            <label for="netid">NetID</label>
+            <input type="text" name="netid"/>
+
+            <label for="password">Password</label>
+            <input type="password" name="password">
+
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</main>
+<footer></footer>
+</body>
+</html>

@@ -22,4 +22,5 @@ from BlackboardCompanion import views, settings
 urlpatterns = [
     path('', views.home),
     path('admin/', admin.site.urls),
+    path('login/', views.login),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

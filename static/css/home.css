@@ -1,0 +1,89 @@
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+header, footer {
+    flex: 0 0 7vh;
+    background-color: #E4701D;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1 1 0px;
+    background-color: #E4701D;
+}
+
+.part {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    flex: 1 1 0px;
+}
+
+.title {
+    font-family: Libre Baskerville;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15vw;
+    line-height: 20vw;
+    text-align: center;
+
+    text-shadow: 0px 3vw 3vw rgba(0, 0, 0, 0.25);
+}
+
+.title .p1 {
+    color: #FFFFFF;
+}
+
+.title .p2 {
+    color: #243443;
+}
+
+.part.bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #009C3B;
+    border-radius: 7vw;
+}
+
+.signin-button {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+
+    flex: 0 0 7vh;
+    width: 80vw;
+
+    /* Background/White */
+    background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%), #FFFFFF;
+
+    /* Shadow/Raised */
+    box-shadow: 0px 1vw 2vw rgba(0, 0, 0, 0.1);
+    border-radius: 3vw;
+}
+
+.signin-button a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 0px;
+    text-decoration-line: none;
+}
+
+.signin-text {
+    /* Text/16.Medium */
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 5vw;
+
+    /* Black/Black */
+    color: #243443;
+}
