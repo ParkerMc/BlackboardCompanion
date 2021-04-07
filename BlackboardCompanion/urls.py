@@ -16,14 +16,10 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from django.views.static import directory_index
 
 from BlackboardCompanion import views, settings
 
-print(settings.STATIC_ROOT)
-
 urlpatterns = [
+    path('', views.home),
     path('admin/', admin.site.urls),
-    path('attendance/', views.attendance_professor),
-    path('scan/', views.scan)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

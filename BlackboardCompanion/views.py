@@ -2,13 +2,7 @@ from django.http import HttpResponse
 from django.template import loader
 
 
-def attendance_professor(request):
-    template = loader.get_template('attendance_professor.html')
-    context = {}
-    return HttpResponse(template.render(context, request))
-
-
-def scan(request):
-    template = loader.get_template('scan.html')
+def home(request):
+    template = loader.get_template('home.html')
     context = {}
     return HttpResponse(template.render(context, request))
