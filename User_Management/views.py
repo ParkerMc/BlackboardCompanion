@@ -21,8 +21,9 @@ def register_view(request):
     else:
         form = UserCreationForm()
 
-    context = {"form": form}
+    context = {"form": form, "error": None}
     return HttpResponse(template.render(context, request))
+
 
 def login_view(request):
     template = loader.get_template('login.html')
@@ -40,5 +41,5 @@ def login_view(request):
         else:
             messages.error(request, "The Username and/or Password are incorrect.")
 
-    context = {}
+    context = {"error": None}
     return HttpResponse(template.render(context, request))

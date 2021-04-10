@@ -25,11 +25,23 @@ main {
     background-size: cover;
 }
 
-.center-box {
+.center-main {
     display: flex;
     flex-direction: row;
 
     background-color: #FFFFFF;
+}
+
+.errorbox {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 3vw;
+    line-height: 4vw;
+    color: #FFFFFF;
+    text-align: center;
+    padding: .5vh 1vh .5vh 1vh;
+    background: #FF0000;
 }
 
 .center-box .right,
@@ -82,9 +94,11 @@ main {
     margin-bottom: 1vh;
     background: #D0BFBF;
     border-radius: 1.5vw;
+
+
 }
 
-.center-box .right input[type=submit] {
+.center-box .right input[type=submit], .bottom-button {
     font-family: Inter;
     font-style: normal;
     font-weight: normal;
@@ -92,11 +106,18 @@ main {
 
     padding-top: 1.25vw;
     padding-bottom: 1.25vw;
+    margin-bottom: 0.25vh;
 
+    text-align: center;
     color: #FFFFFF;
+    background: #009C3B;
     line-height: 4vw;
     margin-top: .5vh;
 
-    background: #009C3B;
     border-radius: 1.5vw;
+}
+
+.bottom-button {
+    background: #6666FF;
+    text-decoration-line: none;
 }
