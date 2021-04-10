@@ -10,5 +10,5 @@ class Enrolled_Class(models.Model):
     Course_Description = models.TextField(max_length=500)
     studentList = models.ManyToManyField(Profile)
 
-    def __str__(self):
+    def getCourseName(self):
         return self.courseName

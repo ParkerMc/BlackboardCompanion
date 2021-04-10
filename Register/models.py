@@ -4,12 +4,6 @@ from django.db import models
 
 # Create your models here.
 class Profile(models.Model):
-    STUDENT = 1
-    TEACHER = 2
-    ROLE_CHOICES = (
-        (STUDENT, 'Student'),
-        (TEACHER, 'Teacher'),
-    )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=30, blank=False, help_text='Required.')
     email_confirmed = models.BooleanField(default=False)
