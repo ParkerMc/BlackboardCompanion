@@ -24,17 +24,15 @@
             <form method="POST" class="right">
                 {% csrf_token %}
                 <label for="netid">NetID</label>
-                <input type="text" name="netid" required/>
+                <input type="text" name="username" required/>
 
                 <label for="password">Password</label>
-                <input type="password" name="password" required/>
+                <input type="password" name="password1" required/>
 
                 <label for="confirm_password">Confirm Password</label>
-                <input type="password" name="confirm_password" required/>
+                <input type="password" name="password2" required/>
 
-                {% for message in messages %}
-                    <p id="messages">{{ message }}</p>
-                {% endfor %}
+                {{ form.errors }}
                 <input type="submit" value="Create User">
                 <a class="bottom-button" href="/login">
                     <span>Login</span>

@@ -21,7 +21,7 @@ def register_view(request):
     else:
         form = UserCreationForm()
 
-    context = {"form": form, "error": None}
+    context = {"form": form}
     return HttpResponse(template.render(context, request))
 
 
