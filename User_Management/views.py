@@ -14,9 +14,15 @@ def register_view(request):
         return redirect("/home")
 
     if request.method == "POST":
+        netID = request.POST['username']
+        password = request.POST['password1']
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            user = authenticate(request, username=netID, password=password)
+            if user is not None:
+                login(request, user)
+
             return redirect('/home')
     else:
         form = UserCreationForm()
