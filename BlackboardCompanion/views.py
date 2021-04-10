@@ -2,12 +2,17 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import redirect
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 
+
 # /
+@login_required(login_url='/login/')
 def blank_view(request):
     return redirect("/home")
 
+
+@login_required(login_url='/login/')
 def home_view(request):
     template = loader.get_template('home.html')
     context = {}
@@ -29,14 +34,18 @@ def login_view(request):
         if user is not None:
             login(request, user)
             return redirect("/home")
-        #else: For displaying error message
+        # else: For displaying error message
 
     context = {}
     return HttpResponse(template.render(context, request))
 
+
 def register_view(request):
     template = loader.get_template('register.html')
 
+    if request.user.is_authenticated:
+        return redirect("/home")
+    
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
