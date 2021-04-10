@@ -1,11 +1,53 @@
 {% load static %}
 <html lang="en">
+<head>
+    <meta charset="utf-8">
 
-{%  block title %}Create an Account{% endblock %}
-{%  block content %}
-    <form method="POST" class="form-group">
-            {%  csrf_token %}
-            {{ form }}
-            <button type="submit" class="btn btn-success">Register</button>
-    </form>
-{% endblock %}
+    <title>Blackboard-Companion</title>
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login_register.css' %}">
+</head>
+
+<body>
+<header></header>
+<main style="background-image: url({% static 'img/login_background.png' %})">
+    <div class="center-box">
+        <div class="center-main">
+            <div class="left">
+                <img class="logo" src="{% static 'img/utd_logo.png' %}">
+                <p class="logo-text">The University <br/>
+                    of Texas at Dallas</p>
+            </div>
+            <form method="POST" class="right">
+                {% csrf_token %}
+                <label for="netid">NetID</label>
+                <input type="text" name="netid" required/>
+
+                <label for="password">Password</label>
+                <input type="password" name="password" required/>
+
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" name="confirm_password" required/>
+
+                {% for message in messages %}
+                    <p id="messages">{{ message }}</p>
+                {% endfor %}
+                <input type="submit" value="Create User">
+                <a class="bottom-button" href="/login">
+                    <span>Login</span>
+                </a>
+            </form>
+        </div>
+    {% if error %}
+        <div class="errorbox">
+            {{ error }}
+        </div>
+    {% endif %}
+    </div>
+</main>
+<footer></footer>
+</body>
+</html>
