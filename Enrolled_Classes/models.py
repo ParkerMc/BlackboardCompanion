@@ -1,5 +1,5 @@
 from django.db import models
-from Register.models import Profile
+from User_Management.models import Profile
 
 
 # Create your models here.
@@ -10,5 +10,5 @@ class Enrolled_Class(models.Model):
     Course_Description = models.TextField(max_length=500)
     studentList = models.ManyToManyField(Profile)
 
-    def getCourseName(self):
+    def __str__(self):
         return self.courseName
