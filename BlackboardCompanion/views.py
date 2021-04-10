@@ -19,6 +19,11 @@ def home_view(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
+def qr_reader(request):
+    template = loader.get_template('qr-reader.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
 
 # /login
 """def login_view(request):

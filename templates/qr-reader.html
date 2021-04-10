@@ -1,0 +1,35 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Blackboard-Companion</title>
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/qr-reader.css' %}">
+</head>
+
+<body>
+<header></header>
+<main>
+
+    <div id="qr_reader"></div>
+
+</main>
+<footer></footer>
+</body>
+<script src="{% static 'js/html5-qrcode.min.js' %}"></script>
+<script>
+    function onScanSuccess(qrCodeMessage) {
+        // handle on success condition with the decoded message
+        console.log(qrCodeMessage)
+        html5QrcodeScanner.clear();
+    }
+
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "qr_reader", {fps: 10, qrbox: 250});
+    html5QrcodeScanner.render(onScanSuccess);
+</script>
+</html>

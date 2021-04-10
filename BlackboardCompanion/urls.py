@@ -29,5 +29,6 @@ urlpatterns = [
     path('login/', user_views.login_view),
     path('register/', user_views.register_view),
     path('enrolled-classes/', classes_views.enrolledClasses_view),
+    path('qr-reader', base_views.qr_reader)
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
