@@ -20,14 +20,14 @@ from django.urls import path
 from BlackboardCompanion import views as base_views
 from BlackboardCompanion import settings
 from Enrolled_Classes import views as classes_views
-from Register import views as reg_views
+from User_Management import views as user_views
 
 urlpatterns = [
     path('', base_views.blank_view),
     path('home/', base_views.home_view),
     path('admin/', admin.site.urls),
     path('login/', base_views.login_view),
-    path('register/', reg_views.register_view),
+    path('register/', user_views.register_view),
     path('enrolled-classes/', classes_views.enrolledClasses_view),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

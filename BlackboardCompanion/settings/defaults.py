@@ -92,6 +92,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_PROFILE_MODULE = BASE_DIR / 'Register/models'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
