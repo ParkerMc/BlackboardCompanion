@@ -9,3 +9,9 @@ def enrolledClasses_view(request):
     context = {}
 
     return HttpResponse(template.render(context, request))
+
+def addClass_view(request):
+    template = loader.get_template('enrolled_classes/addClass.html')
+    context = {}
+
+    return HttpResponse(template.render(context, request))
