@@ -17,14 +17,16 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from BlackboardCompanion import views, settings
-
+from BlackboardCompanion import views as baseViews
+from BlackboardCompanion import settings
+from Enrolled_Classes import views as classesView
 
 urlpatterns = [
     path('', views.blank_view),
-    path('home/', views.home_view),
+    path('home/', baseViews.home_view),
     path('admin/', admin.site.urls),
-    path('login/', views.login_view),
-    path('register/', views.register_view)
+    path('login/', baseViews.login_view),
+    path('register/', baseViews.register_view)
+    path('enrolled-classes'), classesView.enrolledClasses_view),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

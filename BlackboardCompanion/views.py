@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
 
 # /
@@ -28,13 +29,13 @@ def login_view(request):
 
     if request.method == "POST":
         netID = request.POST['netid']
-        print(netID)
         password = request.POST['password']
         user = authenticate(request, username=netID, password=password)
         if user is not None:
             login(request, user)
             return redirect("/home")
-        # else: For displaying error message
+        else:
+            messages.error(request, "The Username and/or Password are incorrect.")
 
     context = {}
     return HttpResponse(template.render(context, request))

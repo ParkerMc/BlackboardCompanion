@@ -28,6 +28,9 @@
             <label for="password">Password</label>
             <input type="password" name="password">
 
+            {%  for message in messages %}
+            <p id="messages">{{ message }}</p>
+            {% endfor %}
             <input type="submit" value="Login">
         </form>
     </div>
