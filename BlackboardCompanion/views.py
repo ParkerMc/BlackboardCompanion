@@ -21,7 +21,7 @@ def home_view(request):
 
 
 # /login
-def login_view(request):
+"""def login_view(request):
     template = loader.get_template('login.html')
 
     if request.user.is_authenticated:
@@ -56,4 +56,4 @@ def register_view(request):
         form = UserCreationForm()
 
     context = {"form": form}
-    return HttpResponse(template.render(context, request))
+    return HttpResponse(template.render(context, request))"""

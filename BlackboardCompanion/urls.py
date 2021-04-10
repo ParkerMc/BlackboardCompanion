@@ -26,7 +26,7 @@ urlpatterns = [
     path('', base_views.blank_view),
     path('home/', base_views.home_view),
     path('admin/', admin.site.urls),
-    path('login/', base_views.login_view),
+    path('login/', user_views.login_view),
     path('register/', user_views.register_view),
     path('enrolled-classes/', classes_views.enrolledClasses_view),
 
