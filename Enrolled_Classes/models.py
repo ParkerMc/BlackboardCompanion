@@ -1,6 +1,5 @@
 from django.db import models
-from User_Management.models import Profile
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Enrolled_Class(models.Model):
@@ -8,7 +7,11 @@ class Enrolled_Class(models.Model):
     courseNumber = models.CharField(max_length=8)  # CS4348
     sectionNumber = models.CharField(max_length=4)  # 004
     Course_Description = models.TextField(max_length=500)
-    studentList = models.ManyToManyField(Profile)
+    meetingDay = models.CharField(max_length=4)
+    meetingTime = models.CharField(max_length=5)
+    professor = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.courseName
+
+
