@@ -24,10 +24,9 @@ from User_Management import views as user_views
 
 urlpatterns = [
     path('', base_views.blank_view),
-    path('home/', base_views.home_view),
     path('admin/', admin.site.urls),
     path('login/', user_views.login_view),
     path('register/', user_views.register_view),
-    path('enrolled-classes/', classes_views.enrolledClasses_view),
-    path('add-Class/', classes_views.addClass_view),
+    path('home/', classes_views.home_view),
+    path('home/add-Class/', classes_views.addClass_view),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
