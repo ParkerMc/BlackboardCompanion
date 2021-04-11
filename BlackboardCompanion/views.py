@@ -11,10 +11,3 @@ def blank_view(request):
         return redirect("/home")
 
     return redirect("/login")
-
-
-@login_required(login_url='/login/')
-def home_view(request):
-    template = loader.get_template('home.html')
-    context = {}
-    return HttpResponse(template.render(context, request))
