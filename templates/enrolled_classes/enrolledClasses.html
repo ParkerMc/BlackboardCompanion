@@ -1,0 +1,8 @@
+{% load static %}
+
+<ul>
+    {%  for class in all_classes %}
+        <li>{{ class.courseName }} {{ class.courseNumber }}.{{ class.sectionNumber }}</li>
+        <p>Q&A | Notes</p>
+    {% endfor %}
+</ul>
