@@ -10,7 +10,7 @@ from django.contrib import messages
 @login_required(login_url='/login/')
 def class_view(request):
     template = loader.get_template('enrolled_classes/enrolledClasses.html')
-    all_classes = Enrolled_Class.objects.all()
+    all_classes = request.user.profile.course.all
 
     context = {
         "all_classes": all_classes
