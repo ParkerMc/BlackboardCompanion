@@ -23,10 +23,10 @@ from Enrolled_Classes import views as classes_views
 from User_Management import views as user_views
 
 urlpatterns = [
-    path('', base_views.blank_view),
-    path('admin/', admin.site.urls),
-    path('login/', user_views.login_view),
-    path('register/', user_views.register_view),
-    path('home/', classes_views.home_view),
-    path('home/add-Class/', classes_views.addClass_view),
+    path('', base_views.blank_view, name='root'),
+    path('admin/', admin.site.urls, name='admin'),
+    path('login/', user_views.login_view, name='login'),
+    path('register/', user_views.register_view, name='register'),
+    path('class/', classes_views.home_view, name='classes'),
+    path('class/add/', classes_views.add_class_view, name='add-class'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

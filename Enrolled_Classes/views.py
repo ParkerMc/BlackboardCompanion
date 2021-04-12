@@ -14,15 +14,13 @@ def home_view(request):
 
 
 @login_required(login_url='/login/')
-def addClass_view(request):
+def add_class_view(request):
     template = loader.get_template('enrolled_classes/addClass.html')
     context = {}
     if request.method == "POST":
         courseName = request.POST["CourseName"]
         sectionNum = request.POST["Section"]
         courseCode = request.POST["Course"]
-
-
 
         return redirect("/home")
 

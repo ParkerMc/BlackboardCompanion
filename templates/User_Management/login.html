@@ -29,18 +29,17 @@
                 <label for="password">Password</label>
                 <input type="password" name="password" required/>
 
-                {% for message in messages %}
-                    <p id="messages">{{ message }}</p>
-                {% endfor %}
                 <input type="submit" value="Login">
-                <a class="bottom-button" href="/register">
+                <a class="bottom-button" href="{% url "register" %}">
                     <span>Register</span>
                 </a>
             </form>
         </div>
-    {% if error %}
+    {% if messages %}
         <div class="errorbox">
-            {{ error }}
+            {% for msg in messages %}
+                <p class="error-msg">{{ msg }}</p>
+            {% endfor %}
         </div>
     {% endif %}
     </div>
