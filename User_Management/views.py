@@ -44,6 +44,7 @@ def login_view(request):
         user = authenticate(request, username=netID, password=password)
         if user is not None:
             login(request, user)
+
             return redirect("/home")
 
         else:

@@ -9,7 +9,7 @@ from Enrolled_Classes.models import Enrolled_Class
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=30, blank=True, help_text='Optional.')
-    courseCodes = models.ManyToManyField(Enrolled_Class, blank=True)
+    course = models.ManyToManyField(Enrolled_Class, blank=True)
 
     # this method called for admin panel
     class Meta:
