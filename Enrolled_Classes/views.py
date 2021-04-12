@@ -7,6 +7,7 @@ from django.contrib import messages
 
 
 # Create your views here.
+@login_required(login_url='/login/')
 def class_view(request):
     template = loader.get_template('enrolled_classes/enrolledClasses.html')
     context = {}
@@ -31,16 +32,18 @@ def isInputValid(sectionNum, courseCode):
             tempCode += courseCode[i]
         else:
             tempNum += courseCode[i]
+    courseCode = tempCode + tempNum
     if len(tempNum) == 4:
         validNum = True
     try:
         if validCodes[tempCode]:
             validCode = True
     except KeyError:
-        return False
+        return False, courseCode
+
     if validCode == True and validNum == True and sectionIsValid == True:
-        return True
-    return False
+        return True, courseCode
+    return False, courseCode
 
 
 @login_required(login_url='/login/')
@@ -59,7 +62,7 @@ def add_class_view(request):
             def_group = group.name
 
         courseCode.upper()
-        valid = isInputValid(sectionNum, courseCode)
+        valid, courseCode = isInputValid(sectionNum, courseCode)
 
         if valid:
             all_classes = Enrolled_Class.objects.all()
@@ -79,9 +82,9 @@ def add_class_view(request):
                                                               courseName=courseName, courseNumber=courseCode)
                 else:
                     new_class = Enrolled_Class.objects.create(sectionNumber=sectionNum, courseName=courseName, courseNumber=courseCode)
-                profile.course.add(new_class)
                 new_class.save()
-            profile.save()
+                profile.course.add(new_class)
+
 
             return redirect("/class")
 
