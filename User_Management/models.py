@@ -1,13 +1,15 @@
-from django.contrib.auth.models import User
-from django.dispatch import receiver
-from django.db.models.signals import post_save
 from django.db import models
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from Enrolled_Classes.models import Enrolled_Class
 
 
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=30, blank=True, help_text='Required.')
+    phone_number = models.CharField(max_length=30, blank=True, help_text='Optional.')
+    course = models.ManyToManyField(Enrolled_Class, blank=True)
 
     # this method called for admin panel
     class Meta:
