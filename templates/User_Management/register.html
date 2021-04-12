@@ -32,18 +32,23 @@
                 <label for="confirm_password">Confirm Password</label>
                 <input type="password" name="password2" required/>
 
-                {{ form.errors }}
                 <input type="submit" value="Create User">
-                <a class="bottom-button" href="/login">
+                <a class="bottom-button" href="{% url "login" %}">
                     <span>Login</span>
                 </a>
             </form>
         </div>
-    {% if error %}
-        <div class="errorbox">
-            {{ error }}
-        </div>
-    {% endif %}
+        {% if form.errors %}
+            <div class="errorbox">
+                {% for errors in form.errors.as_data.values %}
+                    {% for error in errors %}
+                        {% for msg in error.messages %}
+                            <p class="error-msg">{{ msg }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
 </main>
 <footer></footer>

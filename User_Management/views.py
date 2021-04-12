@@ -4,15 +4,14 @@ from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from .models import Profile
 
 
 # Create your views here.
 def register_view(request):
-    template = loader.get_template('User_Mangement/register.html')
+    template = loader.get_template('User_Management/register.html')
 
     if request.user.is_authenticated:
-        return redirect("/home")
+        return redirect("/class")
 
     if request.method == "POST":
         netID = request.POST['username']
@@ -24,7 +23,7 @@ def register_view(request):
             if user is not None:
                 login(request, user)
 
-            return redirect('/home')
+            return redirect('/class')
     else:
         form = UserCreationForm()
 
@@ -33,7 +32,7 @@ def register_view(request):
 
 
 def login_view(request):
-    template = loader.get_template('login.html')
+    template = loader.get_template('User_Management/login.html')
 
     if request.user.is_authenticated:
         logout(request)
@@ -44,11 +43,9 @@ def login_view(request):
         user = authenticate(request, username=netID, password=password)
         if user is not None:
             login(request, user)
-
-            return redirect("/home")
-
+            return redirect("/class")
         else:
             messages.error(request, "The Username and/or Password are incorrect.")
 
-    context = {"error": None}
+    context = {}
     return HttpResponse(template.render(context, request))
