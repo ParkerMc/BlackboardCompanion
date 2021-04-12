@@ -7,7 +7,7 @@ from django.contrib import messages
 
 
 # Create your views here.
-def home_view(request):
+def class_view(request):
     template = loader.get_template('enrolled_classes/enrolledClasses.html')
     context = {}
 
@@ -44,7 +44,7 @@ def isInputValid(sectionNum, courseCode):
 
 
 @login_required(login_url='/login/')
-def addClass_view(request):
+def add_class_view(request):
     template = loader.get_template('enrolled_classes/addClass.html')
     found = False
     def_group = ""
@@ -83,7 +83,7 @@ def addClass_view(request):
                 new_class.save()
             profile.save()
 
-            return redirect("/home")
+            return redirect("/class")
 
         else:
             messages.error(request, "Please input a valid course code")
