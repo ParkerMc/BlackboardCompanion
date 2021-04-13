@@ -1,13 +1,47 @@
 {% load static %}
 
-<ul>
-    {%  for class in all_classes %}
-        <li>{{ class.courseName }} {{ class.courseNumber }}.{{ class.sectionNumber }}</li>
-        <p> Q&A | Notes
-            <form method="POST", action="{% url 'Enrolled_Classes:class_delete' class.id%}">
-                {% csrf_token %}
-                <input type="submit" value="Delete class">
-            </form>
-        </p>
-    {% endfor %}
-</ul>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Blackboard-Companion</title>
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classes.css' %}">
+</head>
+
+<body>
+<header>
+    <h1>Classes</h1>
+</header>
+<main>
+    <ul class="class-list">
+        {% for class in all_classes %}
+            <li>
+                <p>{{ class.courseName }} - {{ class.courseNumber }}.{{ class.sectionNumber }}</p>
+                <p> Q&A | Notes</p>
+                <!--<form method="POST" , action="{% url 'Enrolled_Classes:class_delete' class.id %}">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete class">
+                </form>-->
+            </li>
+        {% endfor %}
+    </ul>
+</main>
+<footer>
+        <a href="{% url 'login' %}" class="button bottom-button logout">
+        <span>
+            Logout
+        </span>
+    </a>
+    <a href="{% url 'Enrolled_Classes:class_add' %}" class="button bottom-button add">
+        <span>
+            Add
+        </span>
+    </a>
+</footer>
+</body>
+</html>

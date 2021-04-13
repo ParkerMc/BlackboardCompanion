@@ -4,7 +4,7 @@ from django.urls import path
 app_name = 'Enrolled_Classes'
 
 urlpatterns = [
-    path(r'^delete/(?P<pk>[0-9]+)/$', class_delete, name='class_delete'),
+    path('<int:pk>/delete/', class_delete, name='class_delete'),
     path('', class_view, name='classes'),
-    path('add/', add_class_view, name='add-class'),
+    path('add/', add_class_view, name='class_add'),
 ]
