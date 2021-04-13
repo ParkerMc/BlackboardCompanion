@@ -3,6 +3,11 @@
 <ul>
     {%  for class in all_classes %}
         <li>{{ class.courseName }} {{ class.courseNumber }}.{{ class.sectionNumber }}</li>
-        <p>Q&A | Notes</p>
+        <p> Q&A | Notes
+            <form method="POST", action="{% url 'Enrolled_Classes:class_delete' class.id%}">
+                {% csrf_token %}
+                <input type="submit" value="Delete class">
+            </form>
+        </p>
     {% endfor %}
 </ul>

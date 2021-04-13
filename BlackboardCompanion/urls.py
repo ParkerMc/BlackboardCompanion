@@ -15,18 +15,17 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
 from BlackboardCompanion import views as base_views
 from BlackboardCompanion import settings
-from Enrolled_Classes import views as classes_views
 from User_Management import views as user_views
 
 urlpatterns = [
+    path('class/', include("Enrolled_Classes.urls")),
     path('', base_views.blank_view, name='root'),
     path('admin/', admin.site.urls, name='admin'),
     path('login/', user_views.login_view, name='login'),
     path('register/', user_views.register_view, name='register'),
-    path('class/', classes_views.class_view, name='classes'),
-    path('class/add/', classes_views.add_class_view, name='add-class'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
