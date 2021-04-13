@@ -7,3 +7,5 @@ Note you may need to add `--settings=BlackboardCompanion.settings.dev` to your c
 When updating models run `makemigrations`, then `migrate`, then `migrate --run-syncdb`
 
 In admin page, when making group for the professor it must be named "Professor" it is case-sensitive.
+
+Link: https://bbc.parkermc.net/login/?next=/
