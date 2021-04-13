@@ -60,7 +60,7 @@ def add_class_view(request):
     if request.method == "POST":
         courseName = request.POST["CourseName"]
         sectionNum = request.POST["Section"]
-        courseCode = request.POST["Course"]
+        courseCode = request.POST["prefix"]+request.POST["Course"]
 
         all_groups = request.user.groups.all()
         for group in all_groups:
