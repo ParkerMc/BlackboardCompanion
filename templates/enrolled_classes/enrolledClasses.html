@@ -23,10 +23,10 @@
             <li>
                 <p>{{ class.courseName }} - {{ class.courseNumber }}.{{ class.sectionNumber }}</p>
                 <p> Q&A | Notes</p>
-                <!--<form method="POST" , action="{% url 'Enrolled_Classes:class_delete' class.id %}">
+                <form method="POST" , action="{% url 'Enrolled_Classes:class_delete' class.id %}">
                     {% csrf_token %}
                     <input type="submit" value="Delete class">
-                </form>-->
+                </form>
             </li>
         {% endfor %}
     </ul>
