@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from .models import Enrolled_Class
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -97,3 +98,19 @@ def add_class_view(request):
 
     context = {"error": None}
     return HttpResponse(template.render(context, request))
+
+def class_delete(request, pk):
+    course = get_object_or_404(Enrolled_Class, pk=pk)
+
+    if request.method == 'POST':
+        def_group = ""
+        all_groups = request.user.groups.all()
+        for group in all_groups:
+            def_group = group.name
+        if def_group == "Professor":
+            course.professor = None
+            course.save()
+        request.user.profile.course.remove(course)
+        return redirect('/class')
+
+    return render(request, 'enrolledClasses.html', {'class': Enrolled_Class})
