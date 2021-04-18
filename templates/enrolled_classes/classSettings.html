@@ -1,0 +1,17 @@
+{% load static %}
+<header>
+    <h1>{{ class.courseName }} Settings</h1>
+</header>
+<form role="form" method = "POST">
+    <label>Start Date</label>
+    <input type="text" name="start" placeholder="mm/dd/yyyy">
+    <label>End Date</label>
+    <input type="text" name="end" placeholder="mm/dd/yyyy">
+    <label>Meeting Time</label>
+    <input type="text" name="time" placeholder="ex: 5:30">
+    <select name="midday">
+        <option value="PM">PM</option>
+        <option value="AM">AM</option>
+    </select>
+    <button type="submit" class="btn btn-success">Save Settings</button>
+</form>

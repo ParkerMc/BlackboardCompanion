@@ -8,8 +8,8 @@ class Enrolled_Class(models.Model):
     courseNumber = models.CharField(max_length=8)  # CS4348
     sectionNumber = models.CharField(max_length=4)  # 004
     Course_Description = models.TextField(max_length=500, blank=True)
-    meetingDay = models.CharField(max_length=4, blank=True)
-    meetingTime = models.CharField(max_length=5, blank=True)
+    startDate = models.DateTimeField(blank=True, null=True)
+    meetingTime = models.DateTimeField(blank=True, null=True)
     professor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null = True)
 
     def __str__(self):
