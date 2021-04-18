@@ -10,7 +10,19 @@ class Enrolled_Class(models.Model):
     Course_Description = models.TextField(max_length=500, blank=True)
     startDate = models.DateTimeField(blank=True, null=True)
     meetingTime = models.DateTimeField(blank=True, null=True)
-    professor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null = True)
+    professor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.courseName
+
+
+class Meeting_Day(models.Model):
+    meetingDate = models.DateTimeField(blank=True, null=True)
+    meetingTime = models.DateTimeField(blank=True, null=True)
+    course = models.ForeignKey(Enrolled_Class, on_delete=models.CASCADE, blank=True, null=True, related_name="course")
+    present = models.ManyToManyField(User, blank=True, related_name="present")
+    late = models.ManyToManyField(User, blank=True, related_name="late")
+    absent = models.ManyToManyField(User, blank=True, related_name="absent")
+
+    def __str__(self):
+        return self.course

@@ -3,6 +3,7 @@
     <h1>{{ class.courseName }} Settings</h1>
 </header>
 <form role="form" method = "POST">
+    {% csrf_token %}
     <label>Start Date</label>
     <input type="text" name="start" placeholder="mm/dd/yyyy">
     <label>End Date</label>

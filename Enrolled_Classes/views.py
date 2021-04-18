@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.http import HttpResponse
-from .models import Enrolled_Class
+from .models import Enrolled_Class, Meeting_Day
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
+import re
+import datetime
 
 
 # Create your views here.
@@ -108,6 +110,9 @@ def add_class_view(request):
                 else:
                     new_class = Enrolled_Class.objects.create(sectionNumber=sectionNum, courseName=courseName,
                                                               courseNumber=courseCode)
+                for i in range(0, 36):
+                    new_meeting_day = Meeting_Day.objects.create(course=new_class)
+                    new_meeting_day.save()
                 new_class.save()
                 profile.course.add(new_class)
 
@@ -137,6 +142,47 @@ def class_delete(request, pk):
 
     return render(request, 'enrolledClasses.html', {'class': Enrolled_Class})
 
+def checkInput(start, end, time):
+    if len(start) < 8 or len(start) > 10 or len(end) < 8 or len(end) > 10:
+        return False, start, end, time
+
+    try:
+
+        datePattern = re.compile("(\d{1,2})\/(\d{1,2})\/(\d{4})")
+        timePattern = re.compile("(\d{1,2})\:(\d{1,2})")
+        datePattern.match(start)
+        datePattern.match(end)
+        timePattern.match(time)
+    except:
+        return False, start, end, time
+
+    month_day = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    parseStart = datePattern.search(start)
+    parseEnd = datePattern.search(end)
+    parseTime = timePattern.search(time)
+
+    if int(parseStart.group(1)) < 1 or int(parseStart.group(1)) > 12:
+        return False, start, end, time
+    if int(parseEnd.group(1)) < 1 or int(parseEnd.group(1)) > 12:
+        return False, start, end, time
+    if int(parseStart.group(2)) < 0 or int(parseStart.group(2)) > month_day[int(parseStart.group(1))]:
+        print("Start group 2: ", parseStart.group(2))
+        return False, start, end, time
+    if int(parseEnd.group(2)) < 0 or int(parseEnd.group(2)) > month_day[int(parseEnd.group(1))]:
+        return False, start, end, time
+    if int(parseStart.group(3)) > datetime.datetime.now().year+1 or int(parseStart.group(3)) < datetime.datetime.now().year:
+        return False, start, end, time
+    if int(parseEnd.group(3)) > datetime.datetime.now().year+1 or int(parseEnd.group(3)) < datetime.datetime.now().year:
+        return False, start, end, time
+    if int(parseTime.group(1)) < 1 or int(parseTime.group(1)) > 12:
+        return False, start, end, time
+    if int(parseTime.group(2)) < 1 or int(parseTime.group(2)) > 59:
+        return False, start, end, time
+
+    start = datetime.date(int(parseStart.group(3)), int(parseStart.group(1)), int(parseStart.group(2)))
+    end = datetime.date(int(parseEnd.group(3)), int(parseEnd.group(1)), int(parseEnd.group(2)))
+    time = datetime.time(hour=int(parseTime.group(1)), minute=int(parseTime.group(2)))
+    return True, start, end, time
 
 @login_required(login_url='/login/')
 def class_settings_view(request, pk):
@@ -150,9 +196,11 @@ def class_settings_view(request, pk):
         context = {"class": course}
 
         if request.method == 'POST':
-            start = request.POST.get('start', False)
-            end = request.POST.get('end', False)
-            time = request.POST.get('time', False)
+            start = request.POST.get('start', "")
+            end = request.POST.get('end', "")
+            time = request.POST.get('time', "")
+            valid, start, end, time = checkInput(start, end, time)
+
     else:
         context = {}
         template = loader.get_template('permissionDenial.html')
