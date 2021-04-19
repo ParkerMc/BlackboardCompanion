@@ -10,6 +10,7 @@ class Enrolled_Class(models.Model):
     Course_Description = models.TextField(max_length=500, blank=True)
     startDate = models.DateTimeField(blank=True, null=True)
     meetingTime = models.DateTimeField(blank=True, null=True)
+    endDate = models.DateTimeField(blank=True, null=True)
     professor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):

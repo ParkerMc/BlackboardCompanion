@@ -14,5 +14,10 @@
         <option value="PM">PM</option>
         <option value="AM">AM</option>
     </select>
+    {% if messages %}
+        {% for msg in messages %}
+            <p class="error-msg">{{ msg }}</p>
+        {% endfor %}
+    {% endif %}
     <button type="submit" class="btn btn-success">Save Settings</button>
 </form>
