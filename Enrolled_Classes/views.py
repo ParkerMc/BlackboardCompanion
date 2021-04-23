@@ -248,15 +248,14 @@ def class_settings_view(request, pk):
                     for meeting_day in all_meeting_days:
                         if i%2 == 0 and weeks > 0:
                             dateTrack += timedelta(days=2)
+                            print("hello")
                             meeting_day.meetingDate = dateTrack
                             meeting_day.meetingTime = time
-                            meeting_day.not_applicable.add(all_users_enrolled)
                             meeting_day.save()
                         elif i%2 == 1 and weeks > 0:
                             dateTrack += timedelta(days=5)
                             meeting_day.meetingDate = dateTrack
                             meeting_day.meetingTime = time
-                            meeting_day.not_applicable.add(all_users_enrolled)
                             weeks -= 1
                             meeting_day.save()
                         else:
