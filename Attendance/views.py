@@ -117,10 +117,12 @@ def class_settings_view(request, pk):
                         else:
                             Meeting_Day.objects.filter(id=meeting_day.id).delete()
                         i += 1
-            elif start != "" and end != "":
+
+                    messages.success(request, "Successfully Updated the new Information!")
+            elif start != "" and end != "" and time != "":
                 messages.error(request, "The input was invalid. Please follow the input format. (Note year must be current)")
-            context = {"class": localCourse,
-                       "error": None}
+            context = {"class": localCourse}
+
     else:
         context = {}
         template = loader.get_template('attendance/permissionDenial.html')
