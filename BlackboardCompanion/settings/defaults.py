@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Enrolled_Classes',
     'User_Management',
+    'Attendance',
 ]
 
 MIDDLEWARE = [
@@ -101,7 +102,7 @@ AUTH_PROFILE_MODULE = BASE_DIR / 'Register/models'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Chicago'
 
 USE_I18N = True
 
