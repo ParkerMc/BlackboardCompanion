@@ -103,7 +103,11 @@ def class_settings_view(request, pk):
                     i = 0
 
                     for meeting_day in all_meeting_days:
-                        if i%2 == 0 and weeks > 0:
+                        if i == 0:
+                            meeting_day.meetingDate = dateTrack
+                            meeting_day.meetingTime = time
+                            meeting_day.save()
+                        elif i%2 == 0 and weeks > 0:
                             dateTrack += timedelta(days=2)
                             meeting_day.meetingDate = dateTrack
                             meeting_day.meetingTime = time
