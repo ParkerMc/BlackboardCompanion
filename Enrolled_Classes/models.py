@@ -12,7 +12,7 @@ class Enrolled_Class(models.Model):
     meetingTime = models.DateTimeField(blank=True, null=True)
     endDate = models.DateTimeField(blank=True, null=True)
     professor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-
+    students = models.ManyToManyField(User, blank=True, related_name="students")
     def __str__(self):
         return self.courseName
 
@@ -24,6 +24,7 @@ class Meeting_Day(models.Model):
     present = models.ManyToManyField(User, blank=True, related_name="present")
     late = models.ManyToManyField(User, blank=True, related_name="late")
     absent = models.ManyToManyField(User, blank=True, related_name="absent")
+    not_applicable = models.ManyToManyField(User, blank=True, related_name="not_applicable")
 
     def __str__(self):
         return self.course

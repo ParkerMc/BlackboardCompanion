@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.http import HttpResponse
@@ -17,6 +18,12 @@ def class_view(request):
     all_groups = request.user.groups.all()
     for group in all_groups:
         def_group = group.name
+        for course in request.user.profile.course.all():
+            if course.professor != request.user:
+                course.professor = request.user
+                if request.user in course.students.all():
+                    course.students.remove(request.user)
+                course.save()
 
     template = loader.get_template('enrolled_classes/enrolledClasses.html')
     all_classes = request.user.profile.course.all
@@ -100,6 +107,8 @@ def add_class_view(request):
                     if def_group == "Professor":
                         course.professor = request.user
                         course.save()
+                    else:
+                        course.students.add(request.user)
                     profile.course.add(course)
                     found = True
                     break;
@@ -111,6 +120,7 @@ def add_class_view(request):
                 else:
                     new_class = Enrolled_Class.objects.create(sectionNumber=sectionNum, courseName=courseName,
                                                               courseNumber=courseCode)
+                    new_class.students.add(request.user)
                 new_class.save()
                 profile.course.add(new_class)
 
@@ -194,6 +204,7 @@ def class_settings_view(request, pk):
     all_groups = request.user.groups.all()
     for group in all_groups:
         def_group = group.name
+
     if def_group == "Professor":
         template = loader.get_template('enrolled_classes/classSettings.html')
         localCourse = Enrolled_Class.objects.get(id=pk)
@@ -231,14 +242,23 @@ def class_settings_view(request, pk):
                         excess_meetings += 1
 
                     all_meeting_days = Meeting_Day.objects.filter(course=localCourse)
+                    all_users_enrolled = User.objects.filter(profile__course=localCourse)
                     i = 0
 
                     for meeting_day in all_meeting_days:
                         if i%2 == 0 and weeks > 0:
                             dateTrack += timedelta(days=2)
+                            meeting_day.meetingDate = dateTrack
+                            meeting_day.meetingTime = time
+                            meeting_day.not_applicable.add(all_users_enrolled)
+                            meeting_day.save()
                         elif i%2 == 1 and weeks > 0:
                             dateTrack += timedelta(days=5)
+                            meeting_day.meetingDate = dateTrack
+                            meeting_day.meetingTime = time
+                            meeting_day.not_applicable.add(all_users_enrolled)
                             weeks -= 1
+                            meeting_day.save()
                         else:
                             Meeting_Day.objects.filter(id=meeting_day.id).delete()
                         i += 1
