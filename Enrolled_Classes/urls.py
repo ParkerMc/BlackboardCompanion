@@ -1,4 +1,5 @@
-from .views import class_view, class_delete, add_class_view, class_settings_view
+from .views import class_view, class_delete, add_class_view
+from Attendance.views import class_settings_view
 from django.urls import path
 
 app_name = 'Enrolled_Classes'
