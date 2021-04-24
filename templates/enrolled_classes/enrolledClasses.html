@@ -41,7 +41,18 @@
                         {% csrf_token %}
                         <input type="submit" value="Leave Class">
                     </form>
-
+                    {% if group != "Professor" and class.professor != None %}
+                        <form action="{% url 'Enrolled_Classes:class_take_attendance_view' class.id %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Attendance">
+                        </form>
+                    {% endif %}
+                    {% if group == "Professor" %}
+                        <form action="{% url 'Enrolled_Classes:class_attendance_view' class.id %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Attendance">
+                        </form>
+                    {% endif %}
                 </div>
             </li>
         {% endfor %}

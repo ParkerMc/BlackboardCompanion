@@ -1,7 +1,8 @@
 import re
 from datetime import datetime, timedelta, date, time
-import math
+import math, random, string
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.template import loader
 from django.contrib import messages
 from Attendance.models import Meeting_Day
@@ -105,33 +106,64 @@ def class_settings_view(request, pk):
                         excess_meetings += 1
 
                     all_meeting_days = Meeting_Day.objects.filter(course=localCourse)
-                    i = 0
+                    i = -1
 
                     for meeting_day in all_meeting_days:
-                        if i == 0:
+                        if i == -1:
+                            letters = string.ascii_letters + string.digits
+                            randomize = ''.join(random.choice(letters) for i in range(10))
                             meeting_day.meetingDate = dateTrack
                             meeting_day.meetingTime = time
+                            meeting_day.randomString = randomize
                             meeting_day.save()
                         elif i%2 == 0 and weeks > 0:
                             dateTrack += timedelta(days=2)
+                            randomize = ''.join(random.choice(letters) for i in range(10))
                             meeting_day.meetingDate = dateTrack
                             meeting_day.meetingTime = time
+                            meeting_day.randomString = randomize
                             meeting_day.save()
                         elif i%2 == 1 and weeks > 0:
                             dateTrack += timedelta(days=5)
+                            randomize = ''.join(random.choice(letters) for i in range(10))
                             meeting_day.meetingDate = dateTrack
                             meeting_day.meetingTime = time
+                            meeting_day.randomString = randomize
                             weeks -= 1
                             meeting_day.save()
                         else:
                             Meeting_Day.objects.filter(id=meeting_day.id).delete()
                         i += 1
 
-                    messages.success(request, "Successfully Updated the new Information!")
+                    return redirect("/class/")
             elif start != "" and end != "" and time != "":
                 messages.error(request, "The input was invalid. Please follow the input format. (Note year must be current)")
             context = {"class": localCourse}
 
+    else:
+        context = {}
+        template = loader.get_template('attendance/permissionDenial.html')
+
+    return HttpResponse(template.render(context, request))
+
+
+@login_required(login_url='/login/')
+def class_take_attendance_view(request, pk):
+    template = loader.get_template('attendance/TakeAttendance.html')
+    localCourse = Enrolled_Class.objects.get(id=pk)
+    context = {"class": localCourse}
+    return HttpResponse(template.render(context, request))
+
+def class_attendance_view(request, pk):
+    def_group = ""
+    all_groups = request.user.groups.all()
+    for group in all_groups:
+        def_group = group.name
+
+    if def_group == "Professor":
+        template = loader.get_template('attendance/Attendance.html')
+        localCourse = Enrolled_Class.objects.get(id=pk)
+        context = {"class": localCourse}
     else:
         context = {}
         template = loader.get_template('attendance/permissionDenial.html')
