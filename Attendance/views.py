@@ -2,6 +2,7 @@ import re
 from datetime import datetime, timedelta, date, time
 import math
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.template import loader
 from django.contrib import messages
 from Attendance.models import Meeting_Day
@@ -127,7 +128,7 @@ def class_settings_view(request, pk):
                             Meeting_Day.objects.filter(id=meeting_day.id).delete()
                         i += 1
 
-                    messages.success(request, "Successfully Updated the new Information!")
+                    return redirect("/class/")
             elif start != "" and end != "" and time != "":
                 messages.error(request, "The input was invalid. Please follow the input format. (Note year must be current)")
             context = {"class": localCourse}
@@ -136,4 +137,18 @@ def class_settings_view(request, pk):
         context = {}
         template = loader.get_template('attendance/permissionDenial.html')
 
+    return HttpResponse(template.render(context, request))
+
+
+@login_required(login_url='/login/')
+def class_take_attendance_view(request, pk):
+    template = loader.get_template('attendance/TakeAttendance.html')
+    localCourse = Enrolled_Class.objects.get(id=pk)
+    context = {"class": localCourse}
+    return HttpResponse(template.render(context, request))
+
+def class_attendance_view(request, pk):
+    template = loader.get_template('attendance/Attendance.html')
+    localCourse = Enrolled_Class.objects.get(id=pk)
+    context = {"class": localCourse}
     return HttpResponse(template.render(context, request))

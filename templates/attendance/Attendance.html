@@ -12,8 +12,7 @@
     </header>
     <main>
         {% csrf_token %}
-        <label>Attendance Code:</label>
-        <input type="text" name="attendance_code">
+
         {% if messages %}
             {% for msg in messages %}
                 <p class="error-msg">{{ msg }}</p>
