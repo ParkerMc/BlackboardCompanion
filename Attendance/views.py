@@ -155,7 +155,17 @@ def class_take_attendance_view(request, pk):
     return HttpResponse(template.render(context, request))
 
 def class_attendance_view(request, pk):
-    template = loader.get_template('attendance/Attendance.html')
-    localCourse = Enrolled_Class.objects.get(id=pk)
-    context = {"class": localCourse}
+    def_group = ""
+    all_groups = request.user.groups.all()
+    for group in all_groups:
+        def_group = group.name
+
+    if def_group == "Professor":
+        template = loader.get_template('attendance/Attendance.html')
+        localCourse = Enrolled_Class.objects.get(id=pk)
+        context = {"class": localCourse}
+    else:
+        context = {}
+        template = loader.get_template('attendance/permissionDenial.html')
+
     return HttpResponse(template.render(context, request))

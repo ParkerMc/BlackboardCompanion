@@ -8,7 +8,7 @@ urlpatterns = [
     path('<int:pk>/delete/', class_delete, name='class_delete'),
     path('<int:pk>/settings/', class_settings_view, name='class_settings_view'),
     path('<int:pk>/takeAttendance/', class_take_attendance_view, name="class_take_attendance_view"),
-    path('<int:pk>/Attendance/', class_attendance_view, name="class_attendance_view"),
+    path('<int:pk>/attendance/', class_attendance_view, name="class_attendance_view"),
     path('', class_view, name='classes'),
     path('add/', add_class_view, name='class_add'),
 ]
