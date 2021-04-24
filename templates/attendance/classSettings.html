@@ -1,23 +1,43 @@
 {% load static %}
-<header>
-    <h1>{{ class.courseName }} Settings</h1>
-</header>
-<form role="form" method = "POST">
-    {% csrf_token %}
-    <label>Start Date</label>
-    <input type="text" name="start" placeholder="mm/dd/yyyy">
-    <label>End Date</label>
-    <input type="text" name="end" placeholder="mm/dd/yyyy">
-    <label>Meeting Time</label>
-    <input type="text" name="time" placeholder="ex: 5:30">
-    <select name="midday">
-        <option value="PM">PM</option>
-        <option value="AM">AM</option>
-    </select>
-    {% if messages %}
-        {% for msg in messages %}
-            <p class="error-msg">{{ msg }}</p>
-        {% endfor %}
-    {% endif %}
-    <button type="submit" class="btn btn-success">Save Settings</button>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Blackboard-Companion</title>
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classSettings.css' %}">
+</head>
+
+<body>
+<form role="form" method="POST">
+    <header>
+        <h1>{{ class.courseName }} Settings</h1>
+    </header>
+    <main>
+        {% csrf_token %}
+        <label>Start Date:</label>
+        <input type="date" name="start" required>
+        <label>End Date:</label>
+        <input type="date" name="end" required>
+        <label>Meeting Time:</label>
+        <input type="time" name="time" required>
+        {% if messages %}
+            {% for msg in messages %}
+                <p class="error-msg">{{ msg }}</p>
+            {% endfor %}
+        {% endif %}
+    </main>
+    <footer>
+        <a href="{% url 'Enrolled_Classes:classes' %}" class="button bottom-button back">
+        <span>
+            Back
+        </span>
+        </a>
+        <button type="submit" class="button bottom-button save">Save Settings</button>
+    </footer>
 </form>
+</body>
+</html>

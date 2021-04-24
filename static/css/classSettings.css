@@ -4,6 +4,13 @@ body {
     margin: 0;
 }
 
+form {
+    flex: 1 1 0px;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
 header {
     display: flex;
     flex: 0 0 7vh;
@@ -28,6 +35,35 @@ header h1 {
 main {
     flex: 1 1 0px;
     display: flex;
+    padding: 1.5vh 3vw 1.5vh 3vw;
+    flex-direction: column;
+}
+
+main label {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 6vw;
+    line-height: 8vw;
+    margin: 1.5vh 0 .25vh 0;
+}
+
+main input, main select {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 6vw;
+    line-height: 8vw;
+}
+
+.date-box {
+    display: flex;
+    align-content: stretch;
+}
+
+.date-box input[type=text] {
+    flex: 1 1 0;
+    align-items: center;
 }
 
 .button {
@@ -49,38 +85,6 @@ main {
     border-radius: 1.5vw;
 }
 
-.class-list {
-    flex: 1 1 0px;
-
-    margin: 0;
-    padding: 1.5vh 3vw 1.5vh 3vw;
-    display: flex;
-    gap: 2vh;
-    flex-direction: column;
-    align-items: stretch;
-
-}
-
-.class-list li {
-    flex: 0 0 auto;
-    list-style-type: none;
-    background: #CCCCCC;
-    border-radius: 1.5vh;
-
-    padding: 2vh 3vw 2vh 3vw;
-
-    font-family: Inter;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 5vw;
-    line-height: 7vw;
-
-    box-shadow: .75vw .75vw #888888;
-}
-
-.class-list li p {
-    margin: 0.75vh;
-}
 
 footer {
     display: flex;
@@ -97,33 +101,22 @@ footer {
     line-height: 7vw;
 }
 
-.logout {
+.back {
     background: #FF9933;
 }
 
-.add {
+.save {
     background: #3366FF;
+    border: 0;
 }
 
-.button-box {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: stretch;
-}
-
-.button-box form {
-    display: flex;
-    flex: 1 1 0;
-    margin: 0;
-}
-
-.button-box form input[type=submit] {
-    flex: 1 1 0;
-    margin: 0.5vh 1vw 0.5vh 1vw;
+.error-msg {
+    padding: 1vh 3vw 1vh 3vw;
+    border-radius: 1vh;
     font-family: Inter;
     font-style: normal;
     font-weight: normal;
-    font-size: 4.5vw;
-    line-height: 6.5vw;
+    font-size: 4vw;
+    line-height: 6vw;
+    background: #FF5050;
 }
