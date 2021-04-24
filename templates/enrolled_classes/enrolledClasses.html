@@ -1,6 +1,4 @@
 {% load static %}
-
-{% load static %}
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -22,23 +20,35 @@
         {% for class in all_classes %}
             <li>
                 <p>{{ class.courseName }} - {{ class.courseNumber }}.{{ class.sectionNumber }}</p>
-                <p> Q&A | Notes</p>
-                <form method="POST" , action="{% url 'Enrolled_Classes:class_delete' class.id %}">
-                    {% csrf_token %}
-                    <input type="submit" value="Leave Class">
-                </form>
-                {% if group == "Professor" %}
-                    <form method="POST", action="{% url 'Enrolled_Classes:class_settings_view' class.id %}">
+                <div class="button-box">
+                    <form onSubmit="alert('Not Implemented');return false;" ,
+                          action="{% url 'Enrolled_Classes:classes' %}">
                         {% csrf_token %}
-                        <input type="submit" value="Settings">
+                        <input type="submit" value="Q&A">
                     </form>
-                {% endif %}
+                    <form onSubmit="alert('Not Implemented');return false;" ,
+                          action="{% url 'Enrolled_Classes:classes' %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Notes">
+                    </form>
+                    {% if group == "Professor" %}
+                        <form method="POST" , action="{% url 'Enrolled_Classes:class_settings_view' class.id %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Settings">
+                        </form>
+                    {% endif %}
+                    <form method="POST" , action="{% url 'Enrolled_Classes:class_delete' class.id %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Leave Class">
+                    </form>
+
+                </div>
             </li>
         {% endfor %}
     </ul>
 </main>
 <footer>
-        <a href="{% url 'login' %}" class="button bottom-button logout">
+    <a href="{% url 'login' %}" class="button bottom-button logout">
         <span>
             Logout
         </span>

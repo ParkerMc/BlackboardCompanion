@@ -69,9 +69,14 @@ def class_settings_view(request, pk):
 
         if request.method == 'POST':
             start = request.POST.get('start', "")
+            start = start[5:].replace("-", "/")+"/"+start[0:4]
             end = request.POST.get('end', "")
+            end = end[5:].replace("-", "/") + "/" + end[0:4]
             time = request.POST.get('time', "")
-            midday = request.POST.get('midday', "")
+            midday = "AM"
+            if len(time) > 4 and int(time[0:2]) > 12:
+                time = str(int(time[0:2])-12) + time[2:]
+                midday = "PM"
             valid, start, end, time = checkInput(start, end, time, midday)
 
             if valid:
