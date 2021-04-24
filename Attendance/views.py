@@ -1,6 +1,6 @@
 import re
 from datetime import datetime, timedelta, date, time
-import math
+import math, random, string
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
@@ -106,22 +106,29 @@ def class_settings_view(request, pk):
                         excess_meetings += 1
 
                     all_meeting_days = Meeting_Day.objects.filter(course=localCourse)
-                    i = 0
+                    i = -1
 
                     for meeting_day in all_meeting_days:
-                        if i == 0:
+                        if i == -1:
+                            letters = string.ascii_letters + string.digits
+                            randomize = ''.join(random.choice(letters) for i in range(10))
                             meeting_day.meetingDate = dateTrack
                             meeting_day.meetingTime = time
+                            meeting_day.randomString = randomize
                             meeting_day.save()
                         elif i%2 == 0 and weeks > 0:
                             dateTrack += timedelta(days=2)
+                            randomize = ''.join(random.choice(letters) for i in range(10))
                             meeting_day.meetingDate = dateTrack
                             meeting_day.meetingTime = time
+                            meeting_day.randomString = randomize
                             meeting_day.save()
                         elif i%2 == 1 and weeks > 0:
                             dateTrack += timedelta(days=5)
+                            randomize = ''.join(random.choice(letters) for i in range(10))
                             meeting_day.meetingDate = dateTrack
                             meeting_day.meetingTime = time
+                            meeting_day.randomString = randomize
                             weeks -= 1
                             meeting_day.save()
                         else:

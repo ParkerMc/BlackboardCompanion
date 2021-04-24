@@ -11,6 +11,7 @@ class Meeting_Day(models.Model):
     late = models.ManyToManyField(User, blank=True, related_name="late")
     absent = models.ManyToManyField(User, blank=True, related_name="absent")
     not_applicable = models.ManyToManyField(User, blank=True, related_name="not_applicable")
+    randomString = models.CharField(max_length=11, blank=False, null=False)
 
     def __str__(self):
         return self.course.courseName
