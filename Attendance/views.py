@@ -33,7 +33,6 @@ def checkInput(start, end, meetTime, midday):
     if int(parseEnd.group(1)) < 1 or int(parseEnd.group(1)) > 12:
         return False, start, end, meetTime
     if int(parseStart.group(2)) < 0 or int(parseStart.group(2)) > month_day[int(parseStart.group(1))]:
-        print("Start group 2: ", parseStart.group(2))
         return False, start, end, meetTime
     if int(parseEnd.group(2)) < 0 or int(parseEnd.group(2)) > month_day[int(parseEnd.group(1))]:
         return False, start, end, meetTime
