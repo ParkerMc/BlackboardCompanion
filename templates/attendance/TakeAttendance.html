@@ -6,13 +6,28 @@
     <title>Take Attendance</title>
 </head>
 <body>
-    {% if not found %}
+    {% if present %}
+        <header>
+            <h1>You were Marked Present for the {{ TodayDate }} meeting.</h1>
+        </header>
+    {% endif %}
+    {% if late %}
+        <header>
+            <h1>You were Marked Late for the {{ TodayDate }} meeting.</h1>
+        </header>
+    {% endif %}
+    {% if absent %}
+        <header>
+            <h1>You were Marked Absent for the {{ TodayDate }} meeting.</h1>
+        </header>
+    {% endif %}
+    {% if not found and not present and not late and not absent%}
         <header>
             <h1>Did Not Find a Meeting Date for {{ TodayDate }}</h1>
         </header>
         <p>You are either too early for your class or the Professor needs to set the start and end dates.</p>
     {% endif %}
-    {% if found %}
+    {% if found and not present and not late and not absent%}
 
         <header>
             <h1>{{ class.courseName }} Attendance</h1>

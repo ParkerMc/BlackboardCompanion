@@ -164,6 +164,9 @@ def class_take_attendance_view(request, pk):
                 inCourse = True
         if inCourse:
             found = True
+            isPresent = False
+            isLate = False
+            isAbsent = False
             print(meeting[0].randomString)
             presentList= meeting[0].present.all()
             lateList=meeting[0].late.all()
@@ -183,13 +186,16 @@ def class_take_attendance_view(request, pk):
                     messages.info(request, "You are early, please come back during your meeting time. (Note: can enter 5 minutes early)")
                 elif currentTime >= lowerPresent and currentTime <= upperPresent:
                     meeting[0].present.add(request.user)
-                    messages.info(request, "You were marked as Present.")
+                    isPresent = True
+                    #messages.info(request, "You were marked as Present.")
                 elif currentTime >= lowerLate and currentTime <=upperLate:
                     meeting[0].late.add(request.user)
-                    messages.info(request, "You were marked as Late.")
+                    isLate = True
+                    #messages.info(request, "You were marked as Late.")
                 elif currentTime >= absentTime:
                     meeting[0].absent.add(request.user)
-                    messages.info(request, "You were marked as Absent.")
+                    isAbsent = True
+                    #messages.info(request, "You were marked as Absent.")
 
             elif request.GET.get("attendance_code") == '' and "attendance_code" in request.GET:
                 messages.error(request, "Must input a code.")
@@ -202,7 +208,10 @@ def class_take_attendance_view(request, pk):
         found = False
     context = {"class": localCourse,
                "found": found,
-               "TodayDate": todayDate}
+               "TodayDate": todayDate,
+               "present": isPresent,
+               "late": isLate,
+               "absent": isAbsent}
     return HttpResponse(template.render(context, request))
 
 @login_required(login_url='/login/')
