@@ -28,7 +28,6 @@ def checkInput(start, end, meetTime, midday):
     parseStart = datePattern.search(start)
     parseEnd = datePattern.search(end)
     parseTime = timePattern.search(meetTime)
-
     if int(parseStart.group(1)) < 1 or int(parseStart.group(1)) > 12:
         return False, start, end, meetTime
     if int(parseEnd.group(1)) < 1 or int(parseEnd.group(1)) > 12:
@@ -40,19 +39,23 @@ def checkInput(start, end, meetTime, midday):
         return False, start, end, meetTime
     if int(parseStart.group(3)) > int(datetime.now().year)+1 or int(parseStart.group(3)) < int(datetime.now().year):
         return False, start, end, meetTime
-    if int(parseEnd.group(3)) > datetime.now().year+1 or int(parseEnd.group(3)) < datetime.now().year:
+    if int(parseEnd.group(3)) > datetime.now().year+1 or int(parseEnd.group(3)) < datetime.now().year-1:
         return False, start, end, meetTime
-    if int(parseTime.group(1)) < 1 or int(parseTime.group(1)) > 12:
+    if int(parseTime.group(1)) < 0 or int(parseTime.group(1)) > 12:
         return False, start, end, meetTime
     if int(parseTime.group(2)) < 1 or int(parseTime.group(2)) > 59:
         return False, start, end, meetTime
 
-    if midday == "PM":
+    if midday == "PM" and parseTime.group(1) != 12:
         hour = int(parseTime.group(1))+12
+    elif midday == "AM" and parseTime.group(1) == 12:
+        hour = int(parseTime.group(1))-12
     else:
         hour = int(parseTime.group(1))
     start = date(int(parseStart.group(3)), int(parseStart.group(1)), int(parseStart.group(2)))
     end = date(int(parseEnd.group(3)), int(parseEnd.group(1)), int(parseEnd.group(2)))
+    if end < start:
+        return False, start, end, meetTime
     meetTime = time(hour=hour, minute=int(parseTime.group(2)))
     return True, start, end, meetTime
 
@@ -137,7 +140,7 @@ def class_settings_view(request, pk):
 
                     return redirect("/class/")
             elif start != "" and end != "" and time != "":
-                messages.error(request, "The input was invalid. Please follow the input format. (Note year must be current)")
+                messages.error(request, "Make sure that end date is not before start date. (Note year must be current)")
             context = {"class": localCourse}
 
     else:
@@ -154,6 +157,7 @@ def class_take_attendance_view(request, pk):
     context = {"class": localCourse}
     return HttpResponse(template.render(context, request))
 
+@login_required(login_url='/login/')
 def class_attendance_view(request, pk):
     def_group = ""
     all_groups = request.user.groups.all()
@@ -166,7 +170,6 @@ def class_attendance_view(request, pk):
         all_meeting_days = Meeting_Day.objects.filter(course=localCourse)
         if all_meeting_days:
             template = loader.get_template('attendance/Attendance.html')
-            print(request.GET)
 
             meeting = Meeting_Day.objects.filter(course=localCourse, meetingDate=request.GET.get('meeting_dates'))
             if meeting:
