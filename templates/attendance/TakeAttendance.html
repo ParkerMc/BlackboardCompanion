@@ -32,11 +32,12 @@
         <header>
             <h1>{{ class.courseName }} Attendance</h1>
         </header>
+        <form role="form" method="GET">
         <main>
             <li>Present: Within 5 minutes before or after start of meeting time.</li>
             <li>Late: 5 minutes after starting time until 1 hour and 15 minutes after starting time.</li>
             <li>Absent: Over 1 hour and 15 minutes of starting time.</li>
-            <form role="form" method="GET">
+
                 {% csrf_token %}
                     <label>Attendance Code:</label>
                     <input type="text" name="attendance_code">
@@ -58,7 +59,9 @@
             Back
         </span>
         </a>
+        {% if not present and not late and not absent %}
         <button type="submit" class="button bottom-button save">Submit</button>
+        {% endif %}
     </footer>
 </form>
 </body>

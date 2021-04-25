@@ -172,7 +172,7 @@ def class_take_attendance_view(request, pk):
             lateList=meeting[0].late.all()
             absentList=meeting[0].absent.all()
             if request.user in presentList or request.user in lateList or request.user in absentList:
-                messages.info(request, "Your Attendance has already been taken for this meeting.")
+                messages.info(request, "Your Attendance has already been taken for the "+meeting[0].meetingDate+" meeting.")
             elif request.GET.get("attendance_code") == meeting[0].randomString:
                 currentTime = datetime.now()
                 tooEarly = datetime.combine(date.today(), meeting[0].meetingTime)+timedelta(minutes=-5, seconds=-1)
