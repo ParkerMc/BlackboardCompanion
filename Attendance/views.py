@@ -153,7 +153,56 @@ def class_settings_view(request, pk):
 def class_take_attendance_view(request, pk):
     template = loader.get_template('attendance/TakeAttendance.html')
     localCourse = Enrolled_Class.objects.get(id=pk)
-    context = {"class": localCourse}
+    todayDate = date.today()
+    meeting = Meeting_Day.objects.filter(course=localCourse, meetingDate=todayDate.strftime("%b. %d, %Y"))
+
+    if meeting and request.method=="GET":
+        inCourse = False
+        all_courses = request.user.profile.course.all()
+        for course in all_courses:
+            if course == localCourse:
+                inCourse = True
+        if inCourse:
+            found = True
+            print(meeting[0].randomString)
+            presentList= meeting[0].present.all()
+            lateList=meeting[0].late.all()
+            absentList=meeting[0].absent.all()
+            if request.user in presentList or request.user in lateList or request.user in absentList:
+                messages.info(request, "Your Attendance has already been taken for this meeting.")
+            elif request.GET.get("attendance_code") == meeting[0].randomString:
+                currentTime = datetime.now()
+                tooEarly = datetime.combine(date.today(), meeting[0].meetingTime)+timedelta(minutes=-5, seconds=-1)
+                lowerPresent = datetime.combine(date.today(), meeting[0].meetingTime)+timedelta(minutes=-5)
+                upperPresent = datetime.combine(date.today(), meeting[0].meetingTime)+timedelta(minutes=4, seconds=59)
+                lowerLate = datetime.combine(date.today(), meeting[0].meetingTime)+timedelta(minutes=5)
+                upperLate = datetime.combine(date.today(), meeting[0].meetingTime)+timedelta(hours=1, minutes=14, seconds=59)
+                absentTime = datetime.combine(date.today(), meeting[0].meetingTime)+timedelta(hours=1, minutes=15)
+                print("NOW: ", currentTime, " the too early limit: ", tooEarly)
+                if currentTime <= tooEarly:
+                    messages.info(request, "You are early, please come back during your meeting time. (Note: can enter 5 minutes early)")
+                elif currentTime >= lowerPresent and currentTime <= upperPresent:
+                    meeting[0].present.add(request.user)
+                    messages.info(request, "You were marked as Present.")
+                elif currentTime >= lowerLate and currentTime <=upperLate:
+                    meeting[0].late.add(request.user)
+                    messages.info(request, "You were marked as Late.")
+                elif currentTime >= absentTime:
+                    meeting[0].absent.add(request.user)
+                    messages.info(request, "You were marked as Absent.")
+
+            elif request.GET.get("attendance_code") == '' and "attendance_code" in request.GET:
+                messages.error(request, "Must input a code.")
+            elif request.GET.get("attendance_code") != meeting[0].randomString and "attendance_code" in request.GET:
+                messages.error(request, "The input did not meet the correct attendance code for the "+meeting[0].meetingDate+" meeting.")
+        else:
+            messages.error(request, "You are not enrolled in this class")
+
+    else:
+        found = False
+    context = {"class": localCourse,
+               "found": found,
+               "TodayDate": todayDate}
     return HttpResponse(template.render(context, request))
 
 @login_required(login_url='/login/')

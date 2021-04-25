@@ -6,20 +6,37 @@
     <title>Take Attendance</title>
 </head>
 <body>
-    <form role="form" method="GET">
-    <header>
-        <h1>{{ class.courseName }} Attendance</h1>
-    </header>
-    <main>
-        {% csrf_token %}
-        <label>Attendance Code:</label>
-        <input type="text" name="attendance_code">
-        {% if messages %}
-            {% for msg in messages %}
-                <p class="error-msg">{{ msg }}</p>
-            {% endfor %}
-        {% endif %}
-    </main>
+    {% if not found %}
+        <header>
+            <h1>Did Not Find a Meeting Date for {{ TodayDate }}</h1>
+        </header>
+        <p>You are either too early for your class or the Professor needs to set the start and end dates.</p>
+    {% endif %}
+    {% if found %}
+
+        <header>
+            <h1>{{ class.courseName }} Attendance</h1>
+        </header>
+        <main>
+            <li>Present: Within 5 minutes before or after start of meeting time.</li>
+            <li>Late: 5 minutes after starting time until 1 hour and 15 minutes after starting time.</li>
+            <li>Absent: Over 1 hour and 15 minutes of starting time.</li>
+            <form role="form" method="GET">
+                {% csrf_token %}
+                    <label>Attendance Code:</label>
+                    <input type="text" name="attendance_code">
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <div class="alert alert-danger"
+                             style="margin-top:10px">{{ message }}</div>
+                    {% endif %}
+                    {% if message.tags == 'info' %}
+                        <div class="alert alert-danger"
+                             style="margin-top:10px">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
+        </main>
+    {% endif %}
     <footer>
         <a href="{% url 'Enrolled_Classes:classes' %}" class="button bottom-button back">
         <span>
