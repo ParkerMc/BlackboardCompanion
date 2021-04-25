@@ -4,7 +4,7 @@ from Enrolled_Classes.models import Enrolled_Class
 
 
 class Meeting_Day(models.Model):
-    meetingDate = models.DateField(blank=True, null=True)
+    meetingDate = models.CharField(max_length=14, blank=True, null=True)
     meetingTime = models.TimeField(blank=True, null=True)
     course = models.ForeignKey(Enrolled_Class, on_delete=models.CASCADE, blank=True, null=True, related_name="course")
     present = models.ManyToManyField(User, blank=True, related_name="present")

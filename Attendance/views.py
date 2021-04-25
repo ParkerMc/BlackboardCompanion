@@ -112,21 +112,21 @@ def class_settings_view(request, pk):
                         if i == -1:
                             letters = string.ascii_letters + string.digits
                             randomize = ''.join(random.choice(letters) for i in range(10))
-                            meeting_day.meetingDate = dateTrack
+                            meeting_day.meetingDate = dateTrack.strftime("%b. %d, %Y")
                             meeting_day.meetingTime = time
                             meeting_day.randomString = randomize
                             meeting_day.save()
                         elif i%2 == 0 and weeks > 0:
                             dateTrack += timedelta(days=2)
                             randomize = ''.join(random.choice(letters) for i in range(10))
-                            meeting_day.meetingDate = dateTrack
+                            meeting_day.meetingDate = dateTrack.strftime("%b. %d, %Y")
                             meeting_day.meetingTime = time
                             meeting_day.randomString = randomize
                             meeting_day.save()
                         elif i%2 == 1 and weeks > 0:
                             dateTrack += timedelta(days=5)
                             randomize = ''.join(random.choice(letters) for i in range(10))
-                            meeting_day.meetingDate = dateTrack
+                            meeting_day.meetingDate = dateTrack.strftime("%b. %d, %Y")
                             meeting_day.meetingTime = time
                             meeting_day.randomString = randomize
                             weeks -= 1
@@ -161,9 +161,33 @@ def class_attendance_view(request, pk):
         def_group = group.name
 
     if def_group == "Professor":
-        template = loader.get_template('attendance/Attendance.html')
+
         localCourse = Enrolled_Class.objects.get(id=pk)
-        context = {"class": localCourse}
+        all_meeting_days = Meeting_Day.objects.filter(course=localCourse)
+        if all_meeting_days:
+            template = loader.get_template('attendance/Attendance.html')
+            print(request.GET)
+
+            meeting = Meeting_Day.objects.filter(course=localCourse, meetingDate=request.GET.get('meeting_dates'))
+            if meeting:
+                presentCount = len(meeting[0].present.all())
+                lateCount = len(meeting[0].late.all())
+                absentCount = len(meeting[0].absent.all())
+                selectedOption = meeting[0].meetingDate
+            else:
+                presentCount = len(all_meeting_days[0].present.all())
+                lateCount = len(all_meeting_days[0].late.all())
+                absentCount = len(all_meeting_days[0].absent.all())
+                selectedOption = all_meeting_days[0].meetingDate
+            context = {"class": localCourse,
+                        "Meeting_Days": all_meeting_days,
+                        "selected_option": selectedOption,
+                        "present_count": presentCount,
+                        "late_count": lateCount,
+                        "absent_count": absentCount}
+        else:
+            template = loader.get_template('attendance/UpdateSettings.html')
+            context = {}
     else:
         context = {}
         template = loader.get_template('attendance/permissionDenial.html')
