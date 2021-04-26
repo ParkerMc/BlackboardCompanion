@@ -38,7 +38,6 @@
             <li>Late: 5 minutes after starting time until 1 hour and 15 minutes after starting time.</li>
             <li>Absent: Over 1 hour and 15 minutes of starting time.</li>
 
-                {% csrf_token %}
                     <label>Attendance Code:</label>
                     <input type="text" name="attendance_code">
                 {% for message in messages %}
@@ -51,6 +50,7 @@
                              style="margin-top:10px">{{ message }}</div>
                     {% endif %}
                 {% endfor %}
+        <div id="qr_reader"></div>
         </main>
     {% endif %}
     <footer>
@@ -65,4 +65,24 @@
     </footer>
 </form>
 </body>
+<script src="{% static 'js/html5-qrcode.min.js' %}"></script>
+<script>
+    let re = new RegExp('[?&]attendance_code=([^&]*)')
+    function onScanSuccess(qrCodeMessage) {
+        // handle on success condition with the decoded message
+        let match = qrCodeMessage.match(re);
+        if(match === null){
+            alert("Invalid Attendance QR code");
+            return;
+        }
+        let codeField = document.getElementsByName("attendance_code")[0];
+        codeField.value = match[1];
+        codeField.form.submit();
+        html5QrcodeScanner.clear();
+    }
+
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "qr_reader", {fps: 10, qrbox: 250});
+    html5QrcodeScanner.render(onScanSuccess);
+</script>
 </html>

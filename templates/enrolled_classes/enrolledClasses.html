@@ -21,38 +21,35 @@
             <li>
                 <p>{{ class.courseName }} - {{ class.courseNumber }}.{{ class.sectionNumber }}</p>
                 <div class="button-box">
-                    <form onSubmit="alert('Not Implemented');return false;" ,
-                          action="{% url 'Enrolled_Classes:classes' %}">
-                        {% csrf_token %}
-                        <input type="submit" value="Q&A">
-                    </form>
-                    <form onSubmit="alert('Not Implemented');return false;" ,
-                          action="{% url 'Enrolled_Classes:classes' %}">
-                        {% csrf_token %}
-                        <input type="submit" value="Notes">
-                    </form>
-                    {% if group == "Professor" %}
-                        <form method="POST" , action="{% url 'Enrolled_Classes:class_settings_view' class.id %}">
-                            {% csrf_token %}
-                            <input type="submit" value="Settings">
-                        </form>
-                    {% endif %}
-                    <form method="POST" , action="{% url 'Enrolled_Classes:class_delete' class.id %}">
-                        {% csrf_token %}
-                        <input type="submit" value="Leave Class">
-                    </form>
                     {% if group != "Professor" and class.professor != None %}
                         <form action="{% url 'Enrolled_Classes:class_take_attendance_view' class.id %}">
-                            {% csrf_token %}
                             <input type="submit" value="Attendance">
                         </form>
                     {% endif %}
                     {% if group == "Professor" %}
                         <form action="{% url 'Enrolled_Classes:class_attendance_view' class.id %}">
-                            {% csrf_token %}
                             <input type="submit" value="Attendance">
                         </form>
                     {% endif %}
+                    <form onSubmit="alert('Not Implemented');return false;"
+                          action="{% url 'Enrolled_Classes:classes' %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Q&A">
+                    </form>
+                    <form onSubmit="alert('Not Implemented');return false;"
+                          action="{% url 'Enrolled_Classes:classes' %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Notes">
+                    </form>
+                    {% if group == "Professor" %}
+                        <form action="{% url 'Enrolled_Classes:class_settings_view' class.id %}">
+                            <input type="submit" value="Settings">
+                        </form>
+                    {% endif %}
+                    <form method="POST" action="{% url 'Enrolled_Classes:class_delete' class.id %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Leave Class">
+                    </form>
                 </div>
             </li>
         {% endfor %}

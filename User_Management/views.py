@@ -43,6 +43,9 @@ def login_view(request):
         user = authenticate(request, username=netID, password=password)
         if user is not None:
             login(request, user)
+
+            if "next" in request.GET:
+                return redirect(request.GET["next"])
             return redirect("/class")
         else:
             messages.error(request, "The Username and/or Password are incorrect.")

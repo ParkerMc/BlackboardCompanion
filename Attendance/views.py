@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.contrib import messages
 from Attendance.models import Meeting_Day
+from BlackboardCompanion import settings
 from Enrolled_Classes.models import Enrolled_Class
 from django.contrib.auth.decorators import login_required
 
@@ -151,6 +152,8 @@ def class_settings_view(request, pk):
             elif start != "" and end != "" and time != "":
                 messages.error(request, "Make sure that end date is not before start date. (Note year must be current)")
             context = {"class": localCourse}
+        else:
+            context = {}
 
     else:
         context = {}
@@ -227,7 +230,8 @@ def class_take_attendance_view(request, pk):
                "TodayDate": todayDate,
                "present": isPresent,
                "late": isLate,
-               "absent": isAbsent}
+               "absent": isAbsent
+               }
     return HttpResponse(template.render(context, request))
 
 
@@ -282,11 +286,13 @@ def class_attendance_view(request, pk):
             print("meeting: ",meeting)
             print(request.GET.get('meeting_dates'))
             if meeting:
+                randomString = meeting[0].randomString
                 presentCount = len(meeting[0].present.all())
                 lateCount = len(meeting[0].late.all())
                 absentCount = len(meeting[0].absent.all())
                 selectedOption = meeting[0].meetingString
             else:
+                randomString = all_meeting_days[0].randomString
                 presentCount = len(all_meeting_days[0].present.all())
                 lateCount = len(all_meeting_days[0].late.all())
                 absentCount = len(all_meeting_days[0].absent.all())
@@ -296,7 +302,10 @@ def class_attendance_view(request, pk):
                        "selected_option": selectedOption,
                        "present_count": presentCount,
                        "late_count": lateCount,
-                       "absent_count": absentCount}
+                       "absent_count": absentCount,
+                       "random_string": randomString,
+                       "host_url": request._current_scheme_host
+                       }
         else:
             template = loader.get_template('attendance/UpdateSettings.html')
             context = {}
