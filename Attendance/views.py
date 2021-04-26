@@ -183,7 +183,7 @@ def class_take_attendance_view(request, pk):
             absentList = meeting[0].absent.all()
             if request.user in presentList or request.user in lateList or request.user in absentList:
                 messages.info(request,
-                              "Your Attendance has already been taken for the " + meeting[0].meetingDate + " meeting.")
+                              "Your Attendance has already been taken for the " + meeting[0].meetingString + " meeting.")
             elif request.GET.get("attendance_code") == meeting[0].randomString:
                 currentTime = datetime.now()
                 tooEarly = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(minutes=-5, seconds=-1)
@@ -216,7 +216,7 @@ def class_take_attendance_view(request, pk):
                 messages.error(request, "Must input a code.")
             elif request.GET.get("attendance_code") != meeting[0].randomString and "attendance_code" in request.GET:
                 messages.error(request, "The input did not meet the correct attendance code for the " + meeting[
-                    0].meetingDate + " meeting.")
+                    0].meetingString + " meeting.")
         else:
             messages.error(request, "You are not enrolled in this class")
 
