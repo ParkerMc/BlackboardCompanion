@@ -16,7 +16,7 @@
             <select name="meeting_dates" id="meeting_dates" onchange="this.form.submit()">
                 <option value="" selected disabled hidden>{{ selected_option }}</option>
                 {% for meeting in Meeting_Days %}
-                    <option value="{{ meeting.meetingDate }}">{{ meeting.meetingDate }}</option>
+                    <option value="{{ meeting.meetingString }}">{{ meeting.meetingString }}</option>
                 {% endfor %}
             </select>
         </form>

@@ -100,12 +100,13 @@ def class_settings_view(request, pk):
 
                     all_meeting_days = Meeting_Day.objects.filter(course=localCourse)
                     dateTrack = start
-                    excess_meetings = len(all_meeting_days) - weeks * 2
-
-                    while excess_meetings < 0:
+                    new_meetings = weeks * 2+2
+                    for meeting_day in all_meeting_days:
+                        Meeting_Day.objects.filter(id=meeting_day.id).delete()
+                    while new_meetings > 0:
                         new_meeting_day = Meeting_Day.objects.create(course=localCourse)
                         new_meeting_day.save()
-                        excess_meetings += 1
+                        new_meetings -= 1
 
                     all_meeting_days = Meeting_Day.objects.filter(course=localCourse)
                     i = -1
@@ -192,7 +193,6 @@ def class_take_attendance_view(request, pk):
                 upperLate = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(hours=1, minutes=14,
                                                                                                seconds=59)
                 absentTime = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(hours=1, minutes=15)
-                print("NOW: ", currentTime, " the too early limit: ", tooEarly)
                 if currentTime <= tooEarly:
                     messages.info(request, "You are early, please come back during your meeting time. (Note: can "
                                            "enter 5 minutes early)")
@@ -237,33 +237,50 @@ def class_attendance_view(request, pk):
     all_groups = request.user.groups.all()
     for group in all_groups:
         def_group = group.name
-
     if def_group == "Professor":
-        currentDate = date.today()
-        currentTime = time.now()
         localCourse = Enrolled_Class.objects.get(id=pk)
         all_meeting_days = Meeting_Day.objects.filter(course=localCourse)
-        recentMeeting = Meeting_Day.objects.filter(course=localCourse, meetingDate=currentDate)
 
-        if recentMeeting:
-            absentTime = datetime.combine(date.today(), recentMeeting[0].meetingTime) + timedelta(hours=1, minutes=15)
-            if recentMeeting and currentTime > absentTime:
-                migrate_absentees = recentMeeting.not_applicable.all()
-                for student in migrate_absentees:
-                    recentMeeting.absent.add(student)
-            elif recentMeeting and not currentTime > absentTime and localCourse.lastScanned < (currentDate+timedelta(days=-1)):
-                rangeOfMeetings = Meeting_Day.objects.filter(meetingDate__range=[localCourse.lastScanned, currentDate+timedelta(days=-1)])
-                for meeting in rangeOfMeetings:
-                    migrate_absentees = meeting.not_applicable.all()
-                    for student in migrate_absentees:
-                        meeting.absent.add(student)
-                        meeting.not_applicable.remove(student)
-        elif:
 
         if all_meeting_days:
             template = loader.get_template('attendance/Attendance.html')
+            currentDate = date.today()
+            currentDateTime = datetime.now()
+            recentMeeting = Meeting_Day.objects.filter(course=localCourse, meetingDate=currentDate)
+            if recentMeeting and localCourse.lastScanned <= currentDate:
+                absentDateTime = datetime.combine(date.today(), recentMeeting[0].meetingTime) + timedelta(hours=1,
+                                                                                                      minutes=15)
+                if recentMeeting and currentDateTime > absentDateTime:
+                    rangeOfMeetings = Meeting_Day.objects.filter(
+                        meetingDate__range=[localCourse.lastScanned, currentDate])
+                    for meeting_day in rangeOfMeetings:
+                        migrate_absentees = meeting_day.not_applicable.all()
+                        for student in migrate_absentees:
+                            meeting_day.absent.add(student)
+                            meeting_day.not_applicable.remove(student)
+                elif recentMeeting and not currentDateTime > absentDateTime and localCourse.lastScanned < (
+                        currentDate + timedelta(days=-1)):
+                    rangeOfMeetings = Meeting_Day.objects.filter(
+                        meetingDate__range=[localCourse.lastScanned, currentDate + timedelta(days=-1)])
+                    for meeting_day in rangeOfMeetings:
+                        migrate_absentees = meeting_day.not_applicable.all()
+                        for student in migrate_absentees:
+                            meeting_day.absent.add(student)
+                            meeting_day.not_applicable.remove(student)
+            elif localCourse.lastScanned < currentDate:
+                rangeOfMeetings = Meeting_Day.objects.filter(
+                    meetingDate__range=[localCourse.lastScanned, currentDate])
+                for meeting_day in rangeOfMeetings:
+                    migrate_absentees = meeting_day.not_applicable.all()
+                    for student in migrate_absentees:
+                        meeting_day.absent.add(student)
+                        meeting_day.not_applicable.remove(student)
+            localCourse.lastScanned = currentDate
+            localCourse.save()
 
             meeting = Meeting_Day.objects.filter(course=localCourse, meetingString=request.GET.get('meeting_dates'))
+            print("meeting: ",meeting)
+            print(request.GET.get('meeting_dates'))
             if meeting:
                 presentCount = len(meeting[0].present.all())
                 lateCount = len(meeting[0].late.all())

@@ -5,6 +5,7 @@ from .models import Enrolled_Class
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
+from datetime import date
 
 
 # Create your views here.
@@ -102,6 +103,7 @@ def add_class_view(request):
                 if course.sectionNumber == sectionNum and course.courseNumber == courseCode:
                     if def_group == "Professor":
                         course.professor = request.user
+                        course.lastScanned = date.today()
                         course.save()
                     else:
                         course.students.add(request.user)
@@ -117,6 +119,7 @@ def add_class_view(request):
                     new_class = Enrolled_Class.objects.create(sectionNumber=sectionNum, courseName=courseName,
                                                               courseNumber=courseCode)
                     new_class.students.add(request.user)
+                new_class.lastScanned = date.today()
                 new_class.save()
                 profile.course.add(new_class)
 

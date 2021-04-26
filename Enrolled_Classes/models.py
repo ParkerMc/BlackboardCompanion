@@ -13,7 +13,7 @@ class Enrolled_Class(models.Model):
     endDate = models.DateTimeField(blank=True, null=True)
     professor = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     students = models.ManyToManyField(User, blank=True, related_name="students")
-    lastScanned = models.DateTimeField
+    lastScanned = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return self.courseName
