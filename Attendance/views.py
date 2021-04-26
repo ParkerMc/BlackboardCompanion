@@ -164,7 +164,7 @@ def class_take_attendance_view(request, pk):
     template = loader.get_template('attendance/TakeAttendance.html')
     localCourse = Enrolled_Class.objects.get(id=pk)
     todayDate = date.today()
-    meeting = Meeting_Day.objects.filter(course=localCourse, meetingDate=todayDate.strftime("%b. %d, %Y"))
+    meeting = Meeting_Day.objects.filter(course=localCourse, meetingString=todayDate.strftime("%b. %d, %Y"))
     isPresent = False
     isLate = False
     isAbsent = False
