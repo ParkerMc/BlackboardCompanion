@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.http import HttpResponse
@@ -5,7 +7,8 @@ from .models import Enrolled_Class
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
-
+import calendar
+from calendar import HTMLCalendar
 
 # Create your views here.
 @login_required(login_url='/login/')
@@ -146,5 +149,18 @@ def class_delete(request, pk):
 
     return render(request, 'enrolledClasses.html', {'class': Enrolled_Class})
 
+
+@login_required(login_url='/login/')
+def add_calendar(request):
+
+  yea= datetime.now().year
+  mont = datetime.now().month
+
+
+  cal = HTMLCalendar().formatmonth(yea, mont)
+  return render(request,
+                'enrolled_classes/calendar.html', {
+                "cal": cal
+                })
 
 

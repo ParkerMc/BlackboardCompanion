@@ -19,6 +19,7 @@ from django.urls import include, path
 
 from BlackboardCompanion import views as base_views
 from BlackboardCompanion import settings
+from Enrolled_Classes import views
 from User_Management import views as user_views
 
 urlpatterns = [

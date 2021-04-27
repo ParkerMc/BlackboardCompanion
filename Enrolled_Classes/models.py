@@ -15,3 +15,5 @@ class Enrolled_Class(models.Model):
     students = models.ManyToManyField(User, blank=True, related_name="students")
     def __str__(self):
         return self.courseName
+
+
