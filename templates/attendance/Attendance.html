@@ -1,42 +1,56 @@
 {% load static %}
+{% load qr_code %}
 
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Take Attendance</title>
+    <meta charset="utf-8">
+
+    <title>Blackboard-Companion</title>
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classProfessorAttendance.css' %}">
 </head>
+
 <body>
-    <header>
-        <h1>{{ class.courseName }} Attendance</h1>
-    </header>
-    <main>
-        {% csrf_token %}
-         <form name="Select_Meeting" method="GET">
-            <select name="meeting_dates" id="meeting_dates" onchange="this.form.submit()">
-                <option value="" selected disabled hidden>{{ selected_option }}</option>
-                {% for meeting in Meeting_Days %}
-                    <option value="{{ meeting.meetingString }}">{{ meeting.meetingString }}</option>
-                {% endfor %}
-            </select>
-        </form>
-        {% if messages %}
-            {% for msg in messages %}
-                <p class="error-msg">{{ msg }}</p>
+<header>
+    <h1>Attendance</h1>
+</header>
+<main>
+    <form name="Select_Meeting" method="GET">
+        <select name="meeting_dates" id="meeting_dates" onchange="this.form.submit()">
+            <option value="" selected disabled hidden>{{ selected_option }}</option>
+            {% for meeting in Meeting_Days %}
+                <option value="{{ meeting.meetingString }}">{{ meeting.meetingString }}</option>
             {% endfor %}
-        {% endif %}
-        <p>Code: {{ random_string }}</p>
-     <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ host_url }}{% url 'Enrolled_Classes:class_take_attendance_view' class.id %}?attendance_code={{ random_string }}"/> <br/>
-        <label>Present: {{ present_count }}</label>
-        <label>Late: {{ late_count }}</label>
-        <label>Absent: {{ absent_count }}</label>
-    </main>
-    <footer>
-        <a href="{% url 'Enrolled_Classes:classes' %}" class="button bottom-button back">
+        </select>
+        <label class="center">
+            {{ class.courseName }}<br/>
+            {{ class.courseNumber }}.{{ class.sectionNumber }}<br/>
+            {{ meeting_day.meetingTime }} {{ selected_option }}
+        </label>
+        <label class="center">Code: {{ random_string }}</label>
+    </form>
+    {% if messages %}
+        {% for msg in messages %}
+            <p class="error-msg">{{ msg }}</p>
+        {% endfor %}
+    {% endif %}
+
+    {% qr_from_text qr_url size="s" image_format="png" %}
+</main>
+    <div class="bottom-box">
+        <p class="bottom-bar present">Present: {{ present_count }}</p>
+        <p class="bottom-bar late">Late: {{ late_count }}</p>
+        <p class="bottom-bar absent">Absent: {{ absent_count }}</p>
+    </div>
+<footer>
+    <a href="{% url 'Enrolled_Classes:classes' %}" class="button bottom-button back">
         <span>
             Back
         </span>
-        </a>
-        <button type="submit" class="button bottom-button save">Submit</button>
-    </footer>
+    </a>
+</footer>
 </body>
 </html>
