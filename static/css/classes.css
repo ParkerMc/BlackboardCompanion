@@ -131,3 +131,7 @@ footer {
 input {
     border-style: solid;
 }
+
+.calendar {
+    background: #00C0C0;
+}
