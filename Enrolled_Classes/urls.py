@@ -1,9 +1,9 @@
 import Enrolled_Classes
 from . import views
-from .views import class_view, class_delete, add_class_view, add_calendar
+from .views import class_view, class_delete, add_class_view
 from Attendance.views import class_settings_view
 from django.urls import path
-
+from Calendar.views import add_calendar
 app_name = 'Enrolled_Classes'
 
 urlpatterns = [

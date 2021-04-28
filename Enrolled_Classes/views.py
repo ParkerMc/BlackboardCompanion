@@ -152,19 +152,6 @@ def class_delete(request, pk):
     return render(request, 'enrolledClasses.html', {'class': Enrolled_Class})
 
 
-@login_required(login_url='/login/')
-def add_calendar(request):
 
-  yea= datetime.now().year
-  mont = datetime.now().month
-  cal = HTMLCalendar().formatmonth(yea, mont)
-
-
-
-
-  return render(request,
-                'enrolled_classes/calendar.html', {
-                "cal": cal
-                })
 
 

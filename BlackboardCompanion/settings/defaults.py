@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'Enrolled_Classes',
     'User_Management',
     'Attendance',
+    'Calendar',
 ]
 
 MIDDLEWARE = [
