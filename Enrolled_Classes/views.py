@@ -3,6 +3,8 @@ from datetime import datetime
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.http import HttpResponse
+
+
 from .models import Enrolled_Class
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -155,9 +157,11 @@ def add_calendar(request):
 
   yea= datetime.now().year
   mont = datetime.now().month
-
-
   cal = HTMLCalendar().formatmonth(yea, mont)
+
+
+
+
   return render(request,
                 'enrolled_classes/calendar.html', {
                 "cal": cal
