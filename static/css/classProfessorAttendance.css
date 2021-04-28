@@ -5,7 +5,7 @@ body {
 }
 
 form {
-    flex: 1 1 0px;
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     margin: 0;
@@ -56,6 +56,11 @@ main input, main select {
     line-height: 8vw;
 }
 
+main select option {
+    font-size: 3vw;
+    line-height: 4vw;
+}
+
 .date-box {
     display: flex;
     align-content: stretch;
@@ -87,6 +92,7 @@ main input, main select {
 
 
 footer {
+    padding: .5vh 0 .5vh 0;
     display: flex;
     flex: 0 0 7vh;
     justify-content: center;
@@ -105,11 +111,6 @@ footer {
     background: #FF9933;
 }
 
-.save {
-    background: #3366FF;
-    border: 0;
-}
-
 .error-msg {
     padding: 1vh 3vw 1vh 3vw;
     border-radius: 1vh;
@@ -119,6 +120,40 @@ footer {
     font-size: 4vw;
     line-height: 6vw;
     background: #FF5050;
+}
+
+.center {
+    text-align: center;
+}
+
+.bottom-bar {
+    padding: .25vh 0 .25vh 0;
+    text-align: center;
+    margin: 0;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 6vw;
+    line-height: 8vw;
+}
+
+img {
+    object-fit: contain;
+    width: auto;
+    height: auto;
+    flex: 1 1 0;
+}
+
+.present {
+    background: #66FF66;
+}
+
+.late {
+    background: #FFFF99;
+}
+
+.absent {
+    background: #FF6666;
 }
 
 input {

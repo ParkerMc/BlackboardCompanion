@@ -23,6 +23,9 @@
             </div>
             <form method="POST" class="right">
                 {% csrf_token %}
+                {% if next %}
+                    <input type="hidde" name="next" value="{{ next }}">
+                {% endif %}
                 <label for="netid">NetID</label>
                 <input type="text" name="netid" required/>
 

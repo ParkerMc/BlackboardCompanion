@@ -1,201 +1,186 @@
-{% block page_title %}
-{% endblock page_title %}
-{% block main_content %}
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- general form elements -->
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Add Course</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <form role="form" method="post">
-                            {% csrf_token %}
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <select name="prefix">
-                                        <option value=""></option>
-                                        <option value="ACCT">ACCT - Accounting</option>
-                                        <option value="ACN">ACN - Applied Cognition and Neuroscience</option>
-                                        <option value="ACTS">ACTS - Actuarial Science</option>
-                                        <option value="AERO">AERO - AFROTC - with UNT</option>
-                                        <option value="AHST">AHST - Art History</option>
-                                        <option value="AMS">AMS - American Studies</option>
-                                        <option value="ARAB">ARAB - Arabic</option>
-                                        <option value="ARHM">ARHM - Arts and Humanities</option>
-                                        <option value="ARTS">ARTS - Art</option>
-                                        <option value="ATCM">ATCM - Arts, Technology, Communication, and Media</option>
-                                        <option value="AUD">AUD - Audiology</option>
-                                        <option value="BA">BA - Business Administration</option>
-                                        <option value="BBSU">BBSU - Behavioral and Brain Sciences Undergraduate</option>
-                                        <option value="BCOM">BCOM - Business Communication</option>
-                                        <option value="BIOL">BIOL - Biology</option>
-                                        <option value="BIS">BIS - Interdisciplinary Studies - Bachelors</option>
-                                        <option value="BLAW">BLAW - Business Law</option>
-                                        <option value="BMEN">BMEN - Biomedical Engineering</option>
-                                        <option value="BPS">BPS - Business Policy and Strategy</option>
-                                        <option value="BUAN">BUAN - Business Analytics</option>
-                                        <option value="CE">CE - Computer Engineering</option>
-                                        <option value="CGS">CGS - Cognitive Science</option>
-                                        <option value="CHEM">CHEM - Chemistry</option>
-                                        <option value="CHIN">CHIN - Chinese</option>
-                                        <option value="CLDP">CLDP - Child Learning and Development</option>
-                                        <option value="COMD">COMD - Communication Disorders</option>
-                                        <option value="COMM">COMM - Communications</option>
-                                        <option value="CRIM">CRIM - Criminology</option>
-                                        <option value="CRWT">CRWT - Creative Writing</option>
-                                        <option value="CS">CS - Computer Science</option>
-                                        <option value="DANC">DANC - Dance</option>
-                                        <option value="ECON">ECON - Economics</option>
-                                        <option value="ECS">ECS - Engineering and Computer Science</option>
-                                        <option value="ECSC">ECSC - Engineering and Computer Science COOP</option>
-                                        <option value="ED">ED - Education</option>
-                                        <option value="EE">EE - Electrical Engineering</option>
-                                        <option value="EEBM">EEBM - Biomedical Applications of Electrical Engineering
-                                        </option>
-                                        <option value="EECS">EECS - Control Systems</option>
-                                        <option value="EECT">EECT - Electrical Engineering: Circuits and Systems
-                                        </option>
-                                        <option value="EEDG">EEDG - Electrical Engineering: Digital Systems</option>
-                                        <option value="EEGR">EEGR - Electrical Engineering - Graduate</option>
-                                        <option value="EEMF">EEMF - Elec. Engn.: Solid State Device &amp; Micro Sys
-                                            Fabric
-                                        </option>
-                                        <option value="EEOP">EEOP - Elec. Engn.: Optical Devices, Materials &amp;
-                                            Systems
-                                        </option>
-                                        <option value="EEPE">EEPE - Power Electronics and Energy Systems</option>
-                                        <option value="EERF">EERF - Elec. Engn.: RF &amp; Microwave Engineering</option>
-                                        <option value="EESC">EESC - Elec. Eng: Communications &amp; Signal Processing
-                                        </option>
-                                        <option value="ENGR">ENGR - Engineering</option>
-                                        <option value="ENGY">ENGY - Energy Management</option>
-                                        <option value="ENTP">ENTP - Innovation and Entrepreneurship</option>
-                                        <option value="ENVR">ENVR - ENVR - Environmental Science</option>
-                                        <option value="EPCS">EPCS - Engineering Projects in Community Service</option>
-                                        <option value="EPPS">EPPS - Economic, Political and Policy Sciences</option>
-                                        <option value="FILM">FILM - Film Studies</option>
-                                        <option value="FIN">FIN - Finance</option>
-                                        <option value="FREN">FREN - French</option>
-                                        <option value="FTEC">FTEC - Financial Technology and Analytics</option>
-                                        <option value="GEOG">GEOG - Geography</option>
-                                        <option value="GEOS">GEOS - Geosciences</option>
-                                        <option value="GERM">GERM - German</option>
-                                        <option value="GISC">GISC - Geographic Information Sciences</option>
-                                        <option value="GOVT">GOVT - Government and Politics</option>
-                                        <option value="GST">GST - Gender Studies</option>
-                                        <option value="HCS">HCS - Behavioral and Brain Sciences</option>
-                                        <option value="HDCD">HDCD - Human Development and Early Childhood Disorders
-                                        </option>
-                                        <option value="HIST">HIST - History</option>
-                                        <option value="HLTH">HLTH - Health Care Studies</option>
-                                        <option value="HMGT">HMGT - Healthcare Administration</option>
-                                        <option value="HONS">HONS - Honors College</option>
-                                        <option value="HUAS">HUAS - Humanities - Aesthetic Studies</option>
-                                        <option value="HUHI">HUHI - Humanities - History of Ideas</option>
-                                        <option value="HUMA">HUMA - Humanities</option>
-                                        <option value="HUSL">HUSL - Humanities - Studies in Literature</option>
-                                        <option value="IDEA">IDEA - History of Ideas</option>
-                                        <option value="IMS">IMS - International Management Studies</option>
-                                        <option value="IPEC">IPEC - International Political Economy</option>
-                                        <option value="ISAE">ISAE - Interdisciplinary Studies-Arts Tech Emrg Comm
-                                        </option>
-                                        <option value="ISAH">ISAH - Interdisciplinary Studies-Arts and Humanities
-                                        </option>
-                                        <option value="ISIS">ISIS - Interdisciplinary Studies</option>
-                                        <option value="ISNS">ISNS - Interdisciplinary Studies-Natural Science and Math
-                                        </option>
-                                        <option value="ITSS">ITSS - Information Technology &amp; Systems</option>
-                                        <option value="JAPN">JAPN - Japanese</option>
-                                        <option value="KORE">KORE - Korean</option>
-                                        <option value="LANG">LANG - Language</option>
-                                        <option value="LATS">LATS - Latin American Studies</option>
-                                        <option value="LIT">LIT - Literary Studies</option>
-                                        <option value="MAIS">MAIS - Master-Interdisciplinary Studies</option>
-                                        <option value="MAS">MAS - Management and Administrative Sciences</option>
-                                        <option value="MATH">MATH - Mathematical Science</option>
-                                        <option value="MECH">MECH - Mechanical Engineering</option>
-                                        <option value="MECO">MECO - Managerial Economics</option>
-                                        <option value="MILS">MILS - Military Science</option>
-                                        <option value="MIS">MIS - Management Information Systems</option>
-                                        <option value="MKT">MKT - Marketing Management</option>
-                                        <option value="MSEN">MSEN - Materials Sciences and Engineering</option>
-                                        <option value="MTHE">MTHE - Math Education</option>
-                                        <option value="MUSI">MUSI - Music</option>
-                                        <option value="NATS">NATS - Natural Sciences</option>
-                                        <option value="NSC">NSC - Neuroscience</option>
-                                        <option value="OB">OB - Organizational Behavior</option>
-                                        <option value="OBHR">OBHR - Organizational Behavior/Human Resources</option>
-                                        <option value="OPRE">OPRE - Operations Research</option>
-                                        <option value="PA">PA - Public Affairs/Administration</option>
-                                        <option value="PHIL">PHIL - Philosophy</option>
-                                        <option value="PHIN">PHIN - Physical Instruction</option>
-                                        <option value="PHYS">PHYS - Physics</option>
-                                        <option value="PPOL">PPOL - Public Policy</option>
-                                        <option value="PPPE">PPPE - Public Policy and Political Economy</option>
-                                        <option value="PSCI">PSCI - Political Science</option>
-                                        <option value="PSY">PSY - Psychology</option>
-                                        <option value="PSYC">PSYC - PSYC - Psychological Sciences</option>
-                                        <option value="REAL">REAL - Real Estate</option>
-                                        <option value="RELS">RELS - Religious Studies</option>
-                                        <option value="RHET">RHET - Rhetoric</option>
-                                        <option value="RMIS">RMIS - Risk Management and Insurance</option>
-                                        <option value="SCI">SCI - Science</option>
-                                        <option value="SE">SE - Software Engineering</option>
-                                        <option value="SMED">SMED - Science Math Education</option>
-                                        <option value="SOC">SOC - Sociology</option>
-                                        <option value="SPAN">SPAN - Spanish</option>
-                                        <option value="SPAU">SPAU - Speech-Language Pathology &amp; Audiology</option>
-                                        <option value="STAT">STAT - Statistics</option>
-                                        <option value="SYSE">SYSE - Systems Engineering</option>
-                                        <option value="SYSM">SYSM - Systems Engineering and Management</option>
-                                        <option value="TE">TE - Telecommunications Engineering</option>
-                                        <option value="THEA">THEA - Theater</option>
-                                        <option value="UNIV">UNIV - University Course</option>
-                                        <option value="UTSW">UTSW - UT SOUTHWESTERN COURSES</option>
-                                        <option value="VPAS">VPAS - Visual and Performing Arts</option>
-                                    </select>
-                                    <label>Course Code </label>
-                                    <input type="text" class="form-control" name="Course" placeholder="Ex: 4348">
-                                    <label>Section </label>
-                                    <input type="text" class="form-control" name="Section" placeholder="Ex: 005">
-                                    <label>Course Name </label>
-                                    <input type="text" class="form-control" name="CourseName"
-                                           placeholder="Ex: Database">
-                                </div>
-                                <div class="form-group">
-                                    {% if messages %}
-                                        {% for message in messages %}
-                                            {% if message.tags == 'error' %}
-                                                <div class="alert alert-danger"
-                                                     style="margin-top:10px">{{ message }}</div>
-                                            {% endif %}
-                                            {% if message.tags == 'success' %}
-                                                <div class="alert alert-success"
-                                                     style="margin-top:10px">{{ message }}</div>
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <!-- /.card-body -->
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
 
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-success">Add Course</button>
-                            </div>
-                        </form>
+    <title>Blackboard-Companion</title>
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet"/>
 
-                    </div>
-                    <!-- /.card -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classAdd.css' %}">
+</head>
 
-
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- /.content -->
-{% endblock main_content %}
+<body>
+<form role="form" method="POST">
+    <header>
+        <h1>Add Course</h1>
+    </header>
+    <main>
+        {% csrf_token %}
+        <label>Course Prefix: </label>
+        <select name="prefix">
+            <option value=""></option>
+            <option value="ACCT">ACCT - Accounting</option>
+            <option value="ACN">ACN - Applied Cognition and Neuroscience</option>
+            <option value="ACTS">ACTS - Actuarial Science</option>
+            <option value="AERO">AERO - AFROTC - with UNT</option>
+            <option value="AHST">AHST - Art History</option>
+            <option value="AMS">AMS - American Studies</option>
+            <option value="ARAB">ARAB - Arabic</option>
+            <option value="ARHM">ARHM - Arts and Humanities</option>
+            <option value="ARTS">ARTS - Art</option>
+            <option value="ATCM">ATCM - Arts, Technology, Communication, and Media</option>
+            <option value="AUD">AUD - Audiology</option>
+            <option value="BA">BA - Business Administration</option>
+            <option value="BBSU">BBSU - Behavioral and Brain Sciences Undergraduate</option>
+            <option value="BCOM">BCOM - Business Communication</option>
+            <option value="BIOL">BIOL - Biology</option>
+            <option value="BIS">BIS - Interdisciplinary Studies - Bachelors</option>
+            <option value="BLAW">BLAW - Business Law</option>
+            <option value="BMEN">BMEN - Biomedical Engineering</option>
+            <option value="BPS">BPS - Business Policy and Strategy</option>
+            <option value="BUAN">BUAN - Business Analytics</option>
+            <option value="CE">CE - Computer Engineering</option>
+            <option value="CGS">CGS - Cognitive Science</option>
+            <option value="CHEM">CHEM - Chemistry</option>
+            <option value="CHIN">CHIN - Chinese</option>
+            <option value="CLDP">CLDP - Child Learning and Development</option>
+            <option value="COMD">COMD - Communication Disorders</option>
+            <option value="COMM">COMM - Communications</option>
+            <option value="CRIM">CRIM - Criminology</option>
+            <option value="CRWT">CRWT - Creative Writing</option>
+            <option value="CS">CS - Computer Science</option>
+            <option value="DANC">DANC - Dance</option>
+            <option value="ECON">ECON - Economics</option>
+            <option value="ECS">ECS - Engineering and Computer Science</option>
+            <option value="ECSC">ECSC - Engineering and Computer Science COOP</option>
+            <option value="ED">ED - Education</option>
+            <option value="EE">EE - Electrical Engineering</option>
+            <option value="EEBM">EEBM - Biomedical Applications of Electrical Engineering
+            </option>
+            <option value="EECS">EECS - Control Systems</option>
+            <option value="EECT">EECT - Electrical Engineering: Circuits and Systems
+            </option>
+            <option value="EEDG">EEDG - Electrical Engineering: Digital Systems</option>
+            <option value="EEGR">EEGR - Electrical Engineering - Graduate</option>
+            <option value="EEMF">EEMF - Elec. Engn.: Solid State Device &amp; Micro Sys
+                Fabric
+            </option>
+            <option value="EEOP">EEOP - Elec. Engn.: Optical Devices, Materials &amp;
+                Systems
+            </option>
+            <option value="EEPE">EEPE - Power Electronics and Energy Systems</option>
+            <option value="EERF">EERF - Elec. Engn.: RF &amp; Microwave Engineering</option>
+            <option value="EESC">EESC - Elec. Eng: Communications &amp; Signal Processing
+            </option>
+            <option value="ENGR">ENGR - Engineering</option>
+            <option value="ENGY">ENGY - Energy Management</option>
+            <option value="ENTP">ENTP - Innovation and Entrepreneurship</option>
+            <option value="ENVR">ENVR - ENVR - Environmental Science</option>
+            <option value="EPCS">EPCS - Engineering Projects in Community Service</option>
+            <option value="EPPS">EPPS - Economic, Political and Policy Sciences</option>
+            <option value="FILM">FILM - Film Studies</option>
+            <option value="FIN">FIN - Finance</option>
+            <option value="FREN">FREN - French</option>
+            <option value="FTEC">FTEC - Financial Technology and Analytics</option>
+            <option value="GEOG">GEOG - Geography</option>
+            <option value="GEOS">GEOS - Geosciences</option>
+            <option value="GERM">GERM - German</option>
+            <option value="GISC">GISC - Geographic Information Sciences</option>
+            <option value="GOVT">GOVT - Government and Politics</option>
+            <option value="GST">GST - Gender Studies</option>
+            <option value="HCS">HCS - Behavioral and Brain Sciences</option>
+            <option value="HDCD">HDCD - Human Development and Early Childhood Disorders
+            </option>
+            <option value="HIST">HIST - History</option>
+            <option value="HLTH">HLTH - Health Care Studies</option>
+            <option value="HMGT">HMGT - Healthcare Administration</option>
+            <option value="HONS">HONS - Honors College</option>
+            <option value="HUAS">HUAS - Humanities - Aesthetic Studies</option>
+            <option value="HUHI">HUHI - Humanities - History of Ideas</option>
+            <option value="HUMA">HUMA - Humanities</option>
+            <option value="HUSL">HUSL - Humanities - Studies in Literature</option>
+            <option value="IDEA">IDEA - History of Ideas</option>
+            <option value="IMS">IMS - International Management Studies</option>
+            <option value="IPEC">IPEC - International Political Economy</option>
+            <option value="ISAE">ISAE - Interdisciplinary Studies-Arts Tech Emrg Comm
+            </option>
+            <option value="ISAH">ISAH - Interdisciplinary Studies-Arts and Humanities
+            </option>
+            <option value="ISIS">ISIS - Interdisciplinary Studies</option>
+            <option value="ISNS">ISNS - Interdisciplinary Studies-Natural Science and Math
+            </option>
+            <option value="ITSS">ITSS - Information Technology &amp; Systems</option>
+            <option value="JAPN">JAPN - Japanese</option>
+            <option value="KORE">KORE - Korean</option>
+            <option value="LANG">LANG - Language</option>
+            <option value="LATS">LATS - Latin American Studies</option>
+            <option value="LIT">LIT - Literary Studies</option>
+            <option value="MAIS">MAIS - Master-Interdisciplinary Studies</option>
+            <option value="MAS">MAS - Management and Administrative Sciences</option>
+            <option value="MATH">MATH - Mathematical Science</option>
+            <option value="MECH">MECH - Mechanical Engineering</option>
+            <option value="MECO">MECO - Managerial Economics</option>
+            <option value="MILS">MILS - Military Science</option>
+            <option value="MIS">MIS - Management Information Systems</option>
+            <option value="MKT">MKT - Marketing Management</option>
+            <option value="MSEN">MSEN - Materials Sciences and Engineering</option>
+            <option value="MTHE">MTHE - Math Education</option>
+            <option value="MUSI">MUSI - Music</option>
+            <option value="NATS">NATS - Natural Sciences</option>
+            <option value="NSC">NSC - Neuroscience</option>
+            <option value="OB">OB - Organizational Behavior</option>
+            <option value="OBHR">OBHR - Organizational Behavior/Human Resources</option>
+            <option value="OPRE">OPRE - Operations Research</option>
+            <option value="PA">PA - Public Affairs/Administration</option>
+            <option value="PHIL">PHIL - Philosophy</option>
+            <option value="PHIN">PHIN - Physical Instruction</option>
+            <option value="PHYS">PHYS - Physics</option>
+            <option value="PPOL">PPOL - Public Policy</option>
+            <option value="PPPE">PPPE - Public Policy and Political Economy</option>
+            <option value="PSCI">PSCI - Political Science</option>
+            <option value="PSY">PSY - Psychology</option>
+            <option value="PSYC">PSYC - PSYC - Psychological Sciences</option>
+            <option value="REAL">REAL - Real Estate</option>
+            <option value="RELS">RELS - Religious Studies</option>
+            <option value="RHET">RHET - Rhetoric</option>
+            <option value="RMIS">RMIS - Risk Management and Insurance</option>
+            <option value="SCI">SCI - Science</option>
+            <option value="SE">SE - Software Engineering</option>
+            <option value="SMED">SMED - Science Math Education</option>
+            <option value="SOC">SOC - Sociology</option>
+            <option value="SPAN">SPAN - Spanish</option>
+            <option value="SPAU">SPAU - Speech-Language Pathology &amp; Audiology</option>
+            <option value="STAT">STAT - Statistics</option>
+            <option value="SYSE">SYSE - Systems Engineering</option>
+            <option value="SYSM">SYSM - Systems Engineering and Management</option>
+            <option value="TE">TE - Telecommunications Engineering</option>
+            <option value="THEA">THEA - Theater</option>
+            <option value="UNIV">UNIV - University Course</option>
+            <option value="UTSW">UTSW - UT SOUTHWESTERN COURSES</option>
+            <option value="VPAS">VPAS - Visual and Performing Arts</option>
+        </select>
+        <label>Course Code: </label>
+        <input type="text" class="form-control" name="Course" placeholder="Ex: 4348" required>
+        <label>Section: </label>
+        <input type="text" class="form-control" name="Section" placeholder="Ex: 005" required>
+        <label>Course Name: </label>
+        <input type="text" class="form-control" name="CourseName" placeholder="Ex: Database" required>
+        {% if messages %}
+            {% for msg in messages %}
+                <p class="error-msg">{{ msg }}</p>
+            {% endfor %}
+        {% endif %}
+    </main>
+    <footer>
+        <a href="{% url 'Enrolled_Classes:classes' %}" class="button bottom-button back">
+        <span>
+            Back
+        </span>
+        </a>
+        <button type="submit" class="button bottom-button save">Add Course</button>
+    </footer>
+</form>
+</body>
+</html>

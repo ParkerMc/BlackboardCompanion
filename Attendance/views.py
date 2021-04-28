@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.template import loader
 from django.contrib import messages
 from Attendance.models import Meeting_Day
+from BlackboardCompanion import settings
 from Enrolled_Classes.models import Enrolled_Class
 from django.contrib.auth.decorators import login_required
 
@@ -151,6 +152,8 @@ def class_settings_view(request, pk):
             elif start != "" and end != "" and time != "":
                 messages.error(request, "Make sure that end date is not before start date. (Note year must be current)")
             context = {"class": localCourse}
+        else:
+            context = {}
 
     else:
         context = {}
@@ -181,36 +184,38 @@ def class_take_attendance_view(request, pk):
             presentList = meeting[0].present.all()
             lateList = meeting[0].late.all()
             absentList = meeting[0].absent.all()
-            if request.user in presentList or request.user in lateList or request.user in absentList:
-                messages.info(request,
-                              "Your Attendance has already been taken for the " + meeting[0].meetingString + " meeting.")
-            elif request.GET.get("attendance_code") == meeting[0].randomString:
-                currentTime = datetime.now()
-                tooEarly = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(minutes=-5, seconds=-1)
-                lowerPresent = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(minutes=-5)
-                upperPresent = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(minutes=4, seconds=59)
-                lowerLate = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(minutes=5)
-                upperLate = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(hours=1, minutes=14,
-                                                                                               seconds=59)
-                absentTime = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(hours=1, minutes=15)
-                if currentTime <= tooEarly:
-                    messages.info(request, "You are early, please come back during your meeting time. (Note: can "
-                                           "enter 5 minutes early)")
-                elif lowerPresent <= currentTime <= upperPresent:
-                    meeting[0].present.add(request.user)
-                    meeting[0].not_applicable.remove(request.user)
-                    isPresent = True
-                    # messages.info(request, "You were marked as Present.")
-                elif lowerLate <= currentTime <= upperLate:
-                    meeting[0].late.add(request.user)
-                    meeting[0].not_applicable.remove(request.user)
-                    isLate = True
-                    # messages.info(request, "You were marked as Late.")
-                elif currentTime >= absentTime:
-                    meeting[0].absent.add(request.user)
-                    meeting[0].not_applicable.remove(request.user)
-                    isAbsent = True
-                    # messages.info(request, "You were marked as Absent.")
+            if request.GET.get("attendance_code") == meeting[0].randomString:
+                if request.user in presentList or request.user in lateList or request.user in absentList:
+                    messages.info(request,
+                                  "Your Attendance has already been taken for the " + meeting[
+                                      0].meetingString + " meeting.")
+                else:
+                    currentTime = datetime.now()
+                    tooEarly = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(minutes=-5, seconds=-1)
+                    lowerPresent = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(minutes=-5)
+                    upperPresent = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(minutes=4, seconds=59)
+                    lowerLate = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(minutes=5)
+                    upperLate = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(hours=1, minutes=14,
+                                                                                                   seconds=59)
+                    absentTime = datetime.combine(date.today(), meeting[0].meetingTime) + timedelta(hours=1, minutes=15)
+                    if currentTime <= tooEarly:
+                        messages.info(request, "You are early, please come back during your meeting time. (Note: can "
+                                               "enter 5 minutes early)")
+                    elif lowerPresent <= currentTime <= upperPresent:
+                        meeting[0].present.add(request.user)
+                        meeting[0].not_applicable.remove(request.user)
+                        isPresent = True
+                        # messages.info(request, "You were marked as Present.")
+                    elif lowerLate <= currentTime <= upperLate:
+                        meeting[0].late.add(request.user)
+                        meeting[0].not_applicable.remove(request.user)
+                        isLate = True
+                        # messages.info(request, "You were marked as Late.")
+                    elif currentTime >= absentTime:
+                        meeting[0].absent.add(request.user)
+                        meeting[0].not_applicable.remove(request.user)
+                        isAbsent = True
+                        # messages.info(request, "You were marked as Absent.")
 
             elif request.GET.get("attendance_code") == '' and "attendance_code" in request.GET:
                 messages.error(request, "Must input a code.")
@@ -227,7 +232,8 @@ def class_take_attendance_view(request, pk):
                "TodayDate": todayDate,
                "present": isPresent,
                "late": isLate,
-               "absent": isAbsent}
+               "absent": isAbsent
+               }
     return HttpResponse(template.render(context, request))
 
 
@@ -282,21 +288,30 @@ def class_attendance_view(request, pk):
             print("meeting: ",meeting)
             print(request.GET.get('meeting_dates'))
             if meeting:
+                meetingDay = meeting[0]
+                randomString = meeting[0].randomString
                 presentCount = len(meeting[0].present.all())
                 lateCount = len(meeting[0].late.all())
                 absentCount = len(meeting[0].absent.all())
                 selectedOption = meeting[0].meetingString
             else:
+                meetingDay =  all_meeting_days[0]
+                randomString = all_meeting_days[0].randomString
                 presentCount = len(all_meeting_days[0].present.all())
                 lateCount = len(all_meeting_days[0].late.all())
                 absentCount = len(all_meeting_days[0].absent.all())
                 selectedOption = all_meeting_days[0].meetingString
+            qrUrl = request._current_scheme_host+"/class/"+str(localCourse.id)+"/takeAttendance?attendance_code="+randomString
             context = {"class": localCourse,
                        "Meeting_Days": all_meeting_days,
+                       "meeting_day": meetingDay,
                        "selected_option": selectedOption,
                        "present_count": presentCount,
                        "late_count": lateCount,
-                       "absent_count": absentCount}
+                       "absent_count": absentCount,
+                       "random_string": randomString,
+                       "qr_url": qrUrl
+                       }
         else:
             template = loader.get_template('attendance/UpdateSettings.html')
             context = {}

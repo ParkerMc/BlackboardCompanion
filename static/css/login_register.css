@@ -125,3 +125,7 @@ main {
     background: #6666FF;
     text-decoration-line: none;
 }
+
+input {
+    border-style: solid;
+}

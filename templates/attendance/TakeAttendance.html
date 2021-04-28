@@ -1,68 +1,84 @@
 {% load static %}
-
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Take Attendance</title>
-</head>
-<body>
-    {% if present %}
-        <header>
-            <h1>You were Marked Present for the {{ TodayDate }} meeting.</h1>
-        </header>
-    {% endif %}
-    {% if late %}
-        <header>
-            <h1>You were Marked Late for the {{ TodayDate }} meeting.</h1>
-        </header>
-    {% endif %}
-    {% if absent %}
-        <header>
-            <h1>You were Marked Absent for the {{ TodayDate }} meeting.</h1>
-        </header>
-    {% endif %}
-    {% if not found and not present and not late and not absent%}
-        <header>
-            <h1>Did Not Find a Meeting Date for {{ TodayDate }}</h1>
-        </header>
-        <p>You are either too early for your class or the Professor needs to set the start and end dates.</p>
-    {% endif %}
-    {% if found and not present and not late and not absent%}
+    <meta charset="utf-8">
 
-        <header>
-            <h1>{{ class.courseName }} Attendance</h1>
-        </header>
-        <form role="form" method="GET">
-        <main>
+    <title>Blackboard-Companion</title>
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/classStudentAttendance.css' %}">
+</head>
+
+<body>
+<form role="form" method="GET">
+    <header>
+        <h1>Attendance</h1>
+    </header>
+    <main>
+        {% csrf_token %}
+
+        <label>Attendance Code:</label>
+        <input type="text" name="attendance_code" placeholder="XXXXXXXX" required>
+
+        <div id="qr_reader"></div>
+
+        <div>
             <li>Present: Within 5 minutes before or after start of meeting time.</li>
             <li>Late: 5 minutes after starting time until 1 hour and 15 minutes after starting time.</li>
             <li>Absent: Over 1 hour and 15 minutes of starting time.</li>
-
-                {% csrf_token %}
-                    <label>Attendance Code:</label>
-                    <input type="text" name="attendance_code">
-                {% for message in messages %}
-                    {% if message.tags == 'error' %}
-                        <div class="alert alert-danger"
-                             style="margin-top:10px">{{ message }}</div>
-                    {% endif %}
-                    {% if message.tags == 'info' %}
-                        <div class="alert alert-danger"
-                             style="margin-top:10px">{{ message }}</div>
-                    {% endif %}
-                {% endfor %}
-        </main>
-    {% endif %}
+        </div>
+        {% if present %}
+            <p class="good-msg">You were Marked Present for the {{ TodayDate }} meeting.</p>
+        {% endif %}
+        {% if late %}
+            <p class="good-msg">You were Marked Late for the {{ TodayDate }} meeting.</p>
+        {% endif %}
+        {% if absent %}
+            <p class="good-msg">You were Marked Absent for the {{ TodayDate }} meeting.</p>
+        {% endif %}
+        {% if not found and not present and not late and not absent %}
+            <p class="good-msg">
+                Did Not Find a Meeting Date for {{ TodayDate }}<br/>
+                <span>You are either too early for your class or the Professor needs to set the start and end dates.</span>
+            </p>
+        {% endif %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p class="error-msg">{{ msg }}</p>
+            {% endfor %}
+        {% endif %}
+    </main>
     <footer>
         <a href="{% url 'Enrolled_Classes:classes' %}" class="button bottom-button back">
         <span>
             Back
         </span>
         </a>
-        {% if not present and not late and not absent %}
         <button type="submit" class="button bottom-button save">Submit</button>
-        {% endif %}
     </footer>
 </form>
 </body>
+<script src="{% static 'js/html5-qrcode.min.js' %}"></script>
+<script>
+    let re = new RegExp('[?&]attendance_code=([^&]*)')
+
+    function onScanSuccess(qrCodeMessage) {
+        // handle on success condition with the decoded message
+        let match = qrCodeMessage.match(re);
+        if (match === null) {
+            alert("Invalid Attendance QR code");
+            return;
+        }
+        let codeField = document.getElementsByName("attendance_code")[0];
+        codeField.value = match[1];
+        codeField.form.submit();
+        html5QrcodeScanner.clear();
+    }
+
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "qr_reader", {fps: 10, qrbox: 250});
+    html5QrcodeScanner.render(onScanSuccess);
+</script>
 </html>
