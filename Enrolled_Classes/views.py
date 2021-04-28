@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.http import HttpResponse
@@ -7,6 +9,8 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from datetime import date
 
+import calendar
+from calendar import HTMLCalendar
 
 # Create your views here.
 @login_required(login_url='/login/')
